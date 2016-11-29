@@ -1,0 +1,75 @@
+.content {
+    margin: 0 auto;
+    padding: 0 2em;
+    max-width: 1190px;
+    margin-bottom: 50px;
+    line-height: 1.6em;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(0, 132, 180);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#nav a:hover {
+    text-decoration: none;
+} 
+
+.write-twirp input[name="twirp"] {
+    width: 100%-20px;
+}
+.write-twirp button[type="submit"] {
+    width: 19%;
+}
+
+.block {
+    border: 1px solid #eeeeee;
+}
+
+.inner-block {
+    padding: 10px;
+}
+
+.sidebar {
+    margin-right: 10px;
+}
+
+.sidebar h2 {
+    font-size: 1em;
+    margin-top: 0;
+}
+
+.sidebar li {
+    list-style-type: none;
+}
+
+.post {
+    border-top: 1px solid #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.post .post-content {
+    padding: 5px;
+    padding-top: 0px;
+    width: -webkit-calc(100%-70px);
+    width: -moz-calc(100%-64px);
+    width: calc(100%-64px);
+    width: 80%;
+}
+
+.post .post-avatar {
+    width: 64px;
+}
+
+.post .post-avatar, .post .post-content {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.end {
+    height: 10px;
+}
