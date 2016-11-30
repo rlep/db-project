@@ -19,11 +19,33 @@ a:hover {
     text-decoration: none;
 } 
 
-.write-twirp input[name="twirp"] {
-    width: 100%-20px;
+.pure-menu-horizontal .pure-menu-list {
+    display: inline-flex;
+    width: 100%;
+}
+
+.pure-menu-item-separator {
+    flex-grow: 1;
+}
+
+.search-bar {
+    padding: .5em 1em;
+}
+
+.search-bar input {
+    height: 2em;
+}
+
+.write-twirp textarea[name="twirp"] {
+    vertical-align: top;
+    width: 80%;
+    width: -moz-calc(100% - 110px);
+    width: -webkit-calc(100% - 110px);
+    width: calc(100% - 110px);
 }
 .write-twirp button[type="submit"] {
-    width: 19%;
+    width: 100px;
+    margin-left: 5px;
 }
 
 .block {
@@ -71,5 +93,5 @@ a:hover {
 }
 
 .end {
-    height: 10px;
+    height: 30px;
 }

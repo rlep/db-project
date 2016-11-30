@@ -24,7 +24,7 @@ function t() {
                 <div class="block">
                     <form class="pure-form write-twirp inner-block">
                         <fieldset>
-                            <input type="text" name="twirp" placeholder="'Sup ?">
+                            <textarea name="twirp" rows="1" placeholder="'Sup ?"></textarea>
                             <button type="submit" class="pure-button pure-button-primary">Twirp</button>
                         </fieldset>
                     </form>

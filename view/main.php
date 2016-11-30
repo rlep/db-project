@@ -22,8 +22,15 @@
                 <ul class="pure-menu-list">
                     <li class="pure-menu-item"><a href="#" class="pure-menu-link">Home</a></li>
                     <li class="pure-menu-item"><a href="#" class="pure-menu-link">Notifications</a></li>
-                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Search</a></li>
-                </ul>
+                    <li class="pure-menu-item-separator"></li>
+                    <li class="pure-menu-item">
+                        <div class="search-bar">
+                            <form class="pure-form">
+                                <input type="text" class="pure-input-rounded" placeholder="Search"/>
+                            </form>
+                        </div>
+                    </li>
+                </ul>                
             </div>
         </div>
     </div>
