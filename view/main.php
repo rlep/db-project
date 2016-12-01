@@ -20,12 +20,12 @@
         <div class="nav-inner">
             <div class="pure-menu-horizontal">
                 <ul class="pure-menu-list">
-                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Home</a></li>
-                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Notifications</a></li>
+                    <li class="pure-menu-item"><a href="index.php" class="pure-menu-link">Home</a></li>
+                    <li class="pure-menu-item"><a href="notifications.php" class="pure-menu-link">Notifications</a></li>
                     <li class="pure-menu-item-separator"></li>
                     <li class="pure-menu-item">
                         <div class="search-bar">
-                            <form class="pure-form">
+                            <form class="pure-form" action="search.php">
                                 <input type="text" class="pure-input-rounded" placeholder="Search"/>
                             </form>
                         </div>

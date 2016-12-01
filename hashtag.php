@@ -8,7 +8,7 @@ function t() {
             <div class="pure-u-1-3">
                 <div class="block sidebar">
                     <div class="inner-block">
-                        <h2>Trending Topics</h2>
+                        <h2>Related Topics</h2>
                         <ul>
                             <li><a href="hashtag.php?h=PrimaireDroite">#PrimaireDroite</a></li>
                             <li><a href="hashtag.php?h=Fillon">#Fillon</a></li>
@@ -24,7 +24,7 @@ function t() {
                 <div class="block">
                     <form class="pure-form write-twirp inner-block">
                         <fieldset>
-                            <textarea name="twirp" rows="1" placeholder="'Sup ?"></textarea>
+                            <textarea name="twirp" rows="1">#24hDeBaba </textarea>
                             <button type="submit" class="pure-button pure-button-primary">Twirp</button>
                         </fieldset>
                     </form>
