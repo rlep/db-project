@@ -56,6 +56,10 @@ a:hover {
     padding: 10px;
 }
 
+.inner-block:first-child {
+    border-top: none;
+}
+
 .sidebar {
     margin-right: 10px;
 }
@@ -69,27 +73,35 @@ a:hover {
     list-style-type: none;
 }
 
-.post {
+.post, .notification {
     border-top: 1px solid #eeeeee;
     border-bottom: 1px solid #eeeeee;
 }
 
-.post .post-content {
+.post .post-content, .user-head .user-name {
+    display: inline-block;
     padding: 5px;
     padding-top: 0px;
-    width: -webkit-calc(100%-70px);
-    width: -moz-calc(100%-64px);
-    width: calc(100%-64px);
     width: 80%;
+    width: -webkit-calc(100% - 80px);
+    width: -moz-calc(100% - 80px);
+    width: calc(100% - 80px);
 }
 
-.post .post-avatar {
+.post .post-avatar, .user-head .user-avatar {
+    display: inline-block;
+    vertical-align: top;
     width: 64px;
 }
 
 .post .post-avatar, .post .post-content {
     display: inline-block;
     vertical-align: top;
+}
+
+.thread-separator {
+    background-color: #efefef;
+    height: 20px;
 }
 
 .end {
