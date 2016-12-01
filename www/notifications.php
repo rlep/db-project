@@ -1,5 +1,5 @@
 <?php 
-include "view/main.php";
+include "../view/main.php";
 
 function t() {
 ?>

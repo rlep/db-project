@@ -1,21 +1,30 @@
 <?php 
-include "view/main.php";
+include "../view/main.php";
 
 function t() {
 ?>
     <div id="list" class="pure-u-1">
         <div class="pure-g">
-            <div class="pure-u-1-6 pure-menu search-options">
-                <ul class="pure-menu-list">
-                      <li class="pure-menu-item pure-menu-selected"><a href="#" class="pure-menu-link">Users</a></li>
-                      <li class="pure-menu-item"><a href="#" class="pure-menu-link">Twirps</a></li>
-                  </ul>
+            <div class="pure-u-1-3">
+                <div class="block sidebar">
+                    <div class="inner-block">
+                        <h2>Related Topics</h2>
+                        <ul>
+                            <li><a href="hashtag.php?h=PrimaireDroite">#PrimaireDroite</a></li>
+                            <li><a href="hashtag.php?h=Fillon">#Fillon</a></li>
+                            <li><a href="hashtag.php?h=ZoneTéléchargement">#ZoneTéléchargement</a></li>
+                            <li><a href="hashtag.php?h=24hDeBaba">#24hDeBaba</a></li>
+                            <li><a href="hashtag.php?h=UnSloganPourLaSNCF">#UnSloganPourLaSNCF</a></li>
+                            <li><a href="hashtag.php?h=ACAB">#ACAB</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="pure-u-5-6">
+            <div class="pure-u-2-3">
                 <div class="block">
                     <form class="pure-form write-twirp inner-block">
                         <fieldset>
-                            <textarea name="twirp" rows="1" placeholder="'Sup ?"></textarea>
+                            <textarea name="twirp" rows="1">#24hDeBaba </textarea>
                             <button type="submit" class="pure-button pure-button-primary">Twirp</button>
                         </fieldset>
                     </form>
