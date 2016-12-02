@@ -10,7 +10,7 @@ namespace Modules\User;
  * Get a user in db
  * @param id the id of the user in db
  * @return an object containing the attributes of the user or false if error
- * @warning this function must avoid showing the password
+ * @warning this function does not yield the password
  */
 function get($id) {
     return (object) array(
@@ -71,14 +71,15 @@ function destroy($id) {
  * Search a user
  * @param string the string to search in the name or username
  * @return an array of the objects of find objects
+ * @warning this function does not return the passwords
  */
 function search($string) {
-    return array((object) array(
+    return [(object) array(
         "id" => 1337,
         "username" => "yrlgtm",
         "name" => "User 1",
         "email" => "yrlgtm@gmail.com"
-    ));
+    )];
 }
 
 /**
