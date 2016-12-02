@@ -82,7 +82,7 @@ function search($string) {
  * @return an array of the objects of each post
  * @warning this function does not return the passwords
  */
-function get_all() {
+function list_all() {
     return [get(1)];
 }
 
