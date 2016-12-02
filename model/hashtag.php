@@ -15,6 +15,15 @@ function list_hashtags() {
 }
 
 /**
+ * List hashtags sorted per popularity (number of posts using each)
+ * @param length number of hashtags to get
+ * @return a list of hashtags
+ */
+function list_popular_hashtags($length) {
+    return [];
+}
+
+/**
  * Get posts for a hashtag
  * @param hashtag the hashtag's id
  * @return a list of posts objects
