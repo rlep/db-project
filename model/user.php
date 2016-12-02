@@ -1,9 +1,9 @@
 <?php
-namespace Modules\User;
+namespace Model\User;
 /**
- * User functions
+ * User model
  *
- * This file contains every action regarding the users
+ * This file contains every db action regarding the users
  */
 
 /**
@@ -28,10 +28,11 @@ function get($id) {
  * @param name the user's name
  * @param password the user's password
  * @param email the user's email
+ * @param avatar_path the temporary path to the user's avatar
  * @return the id which was assigned to the created user
  * @warning this function enciphers the password
  */
-function create($username, $name, $password, $email, $avatar) {
+function create($username, $name, $password, $email, $avatar_path) {
     return 1337;
 }
 
@@ -43,7 +44,7 @@ function create($username, $name, $password, $email, $avatar) {
  * @param email the user's email
  * @return true if everything went fine, false else
  */
-function modify($uid, $username, $name, $email, $avatar) {
+function modify($uid, $username, $name, $email) {
     return false;
 }
 
@@ -59,6 +60,16 @@ function change_password($uid, $new_password) {
 }
 
 /**
+ * Modify a user in db
+ * @param uid the user's id to modify
+ * @param avatar_path the temporary path to the user's avatar
+ * @return true if everything went fine, false else
+ */
+function change_avatar($uid, $avatar_path) {
+    return false;
+}
+
+/**
  * Delete a user in db
  * @param id the id of the user to delete
  * @return true if the user has been correctly deleted, false else
@@ -70,16 +81,37 @@ function destroy($id) {
 /**
  * Search a user
  * @param string the string to search in the name or username
- * @return an array of the objects of find objects
+ * @return an array of find objects
  * @warning this function does not return the passwords
  */
 function search($string) {
-    return [(object) array(
-        "id" => 1337,
-        "username" => "yrlgtm",
-        "name" => "User 1",
-        "email" => "yrlgtm@gmail.com"
-    )];
+    return [get(1)];
+}
+
+/**
+ * List users
+ * @return an array of the objects of every users
+ * @warning this function does not return the passwords
+ */
+function get_all() {
+    return [get(1)];
+}
+
+/**
+ * Get a user from its username
+ * @param username the searched user's username
+ */
+function get_by_username($username) {
+    return [get(1)];
+}
+
+/**
+ * Get a user's followers
+ * @param uid the user's id
+ * @return a list of users objects
+ */
+function get_followers($uid) {
+    return [get(2)];
 }
 
 /**
