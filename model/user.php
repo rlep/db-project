@@ -37,19 +37,26 @@ function create($username, $name, $password, $email, $avatar) {
 
 /**
  * Modify a user in db
+ * @param uid the user's id to modify
  * @param username the user's username
  * @param name the user's name
- * @param password the user's password
  * @param email the user's email
  * @return true if everything went fine, false else
- * @warning this function enciphers the password
  */
-function modify($username, $name, $email, $avatar) {
+function modify($uid, $username, $name, $email, $avatar) {
     return false;
 }
 
 /**
- * Modify
+ * Modify a user in db
+ * @param uid the user's id to modify
+ * @param new_password the new password
+ * @return true if everything went fine, false else
+ * @warning this function enciphers the password
+ */
+function change_password($uid, $new_password) {
+    return false;
+}
 
 /**
  * Delete a user in db
