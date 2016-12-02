@@ -54,7 +54,7 @@ function get_mention_notifications($uid) {
 }
 
 /**
- * Mark a like notification as read (with date of reading)
+ * Mark a mention notification as read (with date of reading)
  * @param uid the user that has been mentioned
  * @param pid the post where the user was mentioned
  * @return true if everything went ok, false else
@@ -80,7 +80,7 @@ function get_following_notifications($uid) {
 }
 
 /**
- * Mark a like notification as read (with date of reading)
+ * Mark a following notification as read (with date of reading)
  * @param followed_id the user id which has been followed
  * @param follower_id the user id that is following
  * @return true if everything went ok, false else
