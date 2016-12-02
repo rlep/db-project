@@ -1,7 +1,7 @@
 <?php 
 include "../view/main.php";
 
-function t() {
+main_template(function() {
 ?>
     <div id="list" class="pure-u-1">
         <div class="pure-g">
@@ -39,7 +39,5 @@ function t() {
         </div>
     </div>
 <?php
-}
-
-main_template(t);
+});
 ?>
