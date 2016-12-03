@@ -30,6 +30,12 @@
                             </form>
                         </div>
                     </li>
+                    <li class="pure-menu-item">
+                        <a class="pure-menu-link" href="login.php">Log in</a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a class="pure-menu-link" href="signup.php">Sign up</a>
+                    </li>
                 </ul>                
             </div>
         </div>
