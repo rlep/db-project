@@ -1,5 +1,5 @@
 <?php
-namespace Controller\Notification;
+namespace Controller\Hashtag;
 
 function hashtag_page() {
 
