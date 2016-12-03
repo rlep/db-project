@@ -24,3 +24,7 @@ function login_page() {
 function logout() {
 
 }
+
+function update() {
+
+}
