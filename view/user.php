@@ -15,9 +15,9 @@ main_template(get_defined_vars(), function($vars) {
                             </div>
 
                             <div class="user-infos pure-g">
-                                <div class="pure-u-1-3"><?php echo $stats->nb_posts; ?> twirps</div>
-                                <div class="pure-u-1-3"><?php echo $stats->nb_followers; ?> followers</div>
-                                <div class="pure-u-1-3"><?php echo $stats->nb_following; ?> following</div>
+                                <div class="pure-u-1-3"><?php echo $stats->nb_posts; ?><br/>twirps</div>
+                                <div class="pure-u-1-3"><?php echo $stats->nb_followers; ?><br/>followers</div>
+                                <div class="pure-u-1-3"><?php echo $stats->nb_following; ?><br/>following</div>
                             </div>
 
                             <div class="user-actions">
@@ -34,72 +34,11 @@ main_template(get_defined_vars(), function($vars) {
             </div>
             <div class="pure-u-2-3">
                 <div class="block">
-                    <div class="post inner-block">
-                        <div class="post-avatar">
-                            <img src="/images/avatar.jpg" height="64" width="64">
-                        </div>
-
-                        <div class="post-content">
-                            <div class="post-author">John Doe</div>
-                            <div class="message">Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.</div>
-                        </div>
-                    </div>
-
-                    <div class="post inner-block">
-                        <div class="post-avatar">
-                            <img src="/images/avatar.jpg" height="64" width="64">
-                        </div>
-
-                        <div class="post-content">
-                            <div class="post-author">John Doe</div>
-                            <div class="message">Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.</div>
-                        </div>
-                    </div>
-
-                    <div class="post inner-block">
-                        <div class="post-avatar">
-                            <img class="email-avatar" src="/images/avatar.jpg" height="64" width="64">
-                        </div>
-
-                        <div class="post-content">
-                            <div class="post-author">John Doe</div>
-                            <div class="message">Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.</div>
-                        </div>
-                    </div>
-
-                    <div class="post inner-block">
-                        <div class="post-avatar">
-                            <img class="email-avatar" src="/images/avatar.jpg" height="64" width="64">
-                        </div>
-
-                        <div class="post-content">
-                            <div class="post-author">John Doe</div>
-                            <div class="message">Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.</div>
-                        </div>
-                    </div>
-
-                    <div class="post inner-block">
-                        <div class="post-avatar">
-                            <img class="email-avatar" src="/images/avatar.jpg" height="64" width="64">
-                        </div>
-
-                        <div class="post-content">
-                            <div class="post-author">John Doe</div>
-                            <div class="message">Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.</div>
-                        </div>
-                    </div>
-
-                    <div class="post inner-block">
-                        <div class="post-avatar">
-                            <img class="email-avatar" src="/images/avatar.jpg" height="64" width="64">
-                        </div>
-
-                        <div class="post-content">
-                            <div class="post-author">John Doe</div>
-                            <div class="message">Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.</div>
-                        </div>
-                    </div>
-
+                    <?php
+                        foreach($posts as $post) {
+                            \View\Partials\Post\post($post);
+                        }
+                    ?>
                     <div class="innerblock end"></div>
                 </div>
             </div>

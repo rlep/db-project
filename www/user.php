@@ -1,6 +1,6 @@
 <?php
 require "../lib/main.php";
-if(!isset($_GET["username"]) {
+if(!isset($_GET["username"])) {
     header("Location: index.php");
 }
 elseif(isset($_GET["follow"])) {

@@ -8,6 +8,7 @@ function user_page($username) {
         header("Location: index.php");
         return;
     }
+    $stats = \Model\User\get_stats($user->id);
     $posts = \Model\Post\list_user_posts($user->id);
     if (\Session\is_authentificated()) {
         $editable = \Session\get_user()->id == $user->id;

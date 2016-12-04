@@ -29,74 +29,12 @@ main_template(get_defined_vars(), function($vars) {
                             <button type="submit" class="pure-button pure-button-primary">Twirp</button>
                         </fieldset>
                     </form>
-                    <?php } ?>
-
-                    <div class="post inner-block">
-                        <div class="post-avatar">
-                            <img class="email-avatar" src="/images/avatar.jpg" height="64" width="64">
-                        </div>
-
-                        <div class="post-content">
-                            <div class="post-author">John Doe</div>
-                            <div class="message">Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.</div>
-                        </div>
-                    </div>
-
-                    <div class="post inner-block">
-                        <div class="post-avatar">
-                            <img class="email-avatar" src="/images/avatar.jpg" height="64" width="64">
-                        </div>
-
-                        <div class="post-content">
-                            <div class="post-author">John Doe</div>
-                            <div class="message">Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.</div>
-                        </div>
-                    </div>
-
-                    <div class="post inner-block">
-                        <div class="post-avatar">
-                            <img class="email-avatar" src="/images/avatar.jpg" height="64" width="64">
-                        </div>
-
-                        <div class="post-content">
-                            <div class="post-author">John Doe</div>
-                            <div class="message">Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.</div>
-                        </div>
-                    </div>
-
-                    <div class="post inner-block">
-                        <div class="post-avatar">
-                            <img class="email-avatar" src="/images/avatar.jpg" height="64" width="64">
-                        </div>
-
-                        <div class="post-content">
-                            <div class="post-author">John Doe</div>
-                            <div class="message">Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.</div>
-                        </div>
-                    </div>
-
-                    <div class="post inner-block">
-                        <div class="post-avatar">
-                            <img class="email-avatar" src="/images/avatar.jpg" height="64" width="64">
-                        </div>
-
-                        <div class="post-content">
-                            <div class="post-author">John Doe</div>
-                            <div class="message">Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.</div>
-                        </div>
-                    </div>
-
-                    <div class="post inner-block">
-                        <div class="post-avatar">
-                            <img class="email-avatar" src="/images/avatar.jpg" height="64" width="64">
-                        </div>
-
-                        <div class="post-content">
-                            <div class="post-author">John Doe</div>
-                            <div class="message">Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.</div>
-                        </div>
-                    </div>
-
+                    <?php }
+                    
+                    foreach($posts as $post) {
+                        \View\Partials\Post\post($post);
+                    }
+                    ?>
                     <div class="innerblock end"></div>
                 </div>
             </div>

@@ -36,7 +36,7 @@ a:hover {
     height: 2em;
 }
 
-.write-twirp textarea[name="twirp"] {
+.write-twirp textarea[name="text"] {
     vertical-align: top;
     width: 80%;
     width: -moz-calc(100% - 110px);
@@ -97,6 +97,16 @@ a:hover {
 .post .post-avatar, .post .post-content {
     display: inline-block;
     vertical-align: top;
+}
+
+.post a.link-post {
+    text-decoration: none;
+    color: black;
+}
+
+.post a.link-author {
+    text-decoration: none;
+    color: black;
 }
 
 .thread-separator {

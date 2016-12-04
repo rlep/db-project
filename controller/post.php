@@ -2,10 +2,15 @@
 namespace Controller\Post;
 
 function post_page($id) {
-    $post = \Model\Post\get($id);
+    $post = \Model\Post\get_with_joins($id);
     if(!$post) {
         header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true, 404);
         return;
+    }
+    $responses = \Model\Post\get_responses($id);
+    $stats = \Model\Post\get_stats($id);
+    foreach($responses as $response) {
+        $response->responses = \Model\Post\get_responses($id);
     }
     require '../view/post.php';
 }
@@ -47,7 +52,6 @@ function respond($id, $form) {
         \Session\set_error("An error occured while trying to publish your twirp.");
         header("Location: post.php?id=".$id);        
     }
-
 }
 
 function destroy($id) {
@@ -61,10 +65,34 @@ function destroy($id) {
         header($_SERVER["SERVER_PROTOCOL"]." 403 Forbidden", true, 403);
         return;
     }
-
+    if(\Model\Post\destroy($id)) {
+        \Session\set_success("Your twirp has been deleted.");
+        header("Location: index.php");
+    }
+    else {
+        \Session\set_error("An error occured");
+        header("Location: post.php?id=".$id);        
+    }
 }
 
-function like() {
-
+function like($id) {
+    $post = \Model\Post\get($id);
+    if(!$post) {
+        header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true, 404);
+        return;
+    }
+    $user = \Session\get_user();
+    if(!$user) {
+        header($_SERVER["SERVER_PROTOCOL"]." 403 Forbidden", true, 403);
+        return;
+    }
+    if(\Model\Post\like($id)) {
+        \Session\set_success("Your like was counted.");
+        header("Location: post.php?id=".$id);
+    }
+    else {
+        \Session\set_error("An error occured");
+        header("Location: post.php?id=".$id);        
+    }
 }
 

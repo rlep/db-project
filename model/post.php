@@ -16,7 +16,7 @@ namespace Model\Post;
 function get($id) {
     return (object) array(
         "id" => 1337,
-        "post_content" => "Text",
+        "text" => "Text",
         "date" => new \DateTime('2011-01-01T15:03:01'),
         "author" => \Model\User\get(2)
     );
@@ -35,7 +35,7 @@ function get($id) {
 function get_with_joins($id) {
     return (object) array(
         "id" => 1337,
-        "post_content" => "Ima writing a post !",
+        "text" => "Ima writing a post !",
         "date" => new \DateTime('2011-01-01T15:03:01'),
         "author" => \Model\User\get(2),
         "likes" => [],
@@ -47,7 +47,7 @@ function get_with_joins($id) {
 /**
  * Create a post in db
  * @param author_id the author user's id
- * @param name the user's name
+ * @param text the message
  * @param mentioned_authors the array of ids of users who are mentioned in the post
  * @param response_to the id of the post which the creating post responds to
  * @return the id which was assigned to the created post
@@ -93,7 +93,7 @@ function list_user_posts($id) {
  * @warning this function does not return the passwords
  */
 function list_all($date_sorted=false) {
-    return [get(1)];
+    return [get(1),get(1),get(1),get(1),get(1),get(1)];
 }
 
 /**
