@@ -9,16 +9,16 @@ main_template(get_defined_vars(), function($vars) {
             </div>
             <div class="pure-u-2-3">
                 <div class="block">
-                    <form class="inner-block pure-form pure-form-stacked">
+                    <form class="inner-block pure-form pure-form-stacked" action="login.php" method="post">
                         <fieldset>
-                            <label for="email">Email</label>
-                            <input id="email" type="email" placeholder="Email" required>
+                            <label for="username">Username</label>
+                            <input name="username" id="username" type="text" placeholder="Username" required>
                     
                             <label for="password">Password</label>
-                            <input id="password" type="password" placeholder="Password" required>
+                            <input name="password" id="password" type="password" placeholder="Password" required>
                     
                             <label for="remember" class="pure-checkbox">
-                                <input id="remember" type="checkbox"> Remember me
+                                <input name="remember" id="remember" type="checkbox"> Remember me
                             </label>
                     
                             <button type="submit" class="pure-button pure-button-primary">Sign in</button>

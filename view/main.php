@@ -21,7 +21,7 @@
             <div class="pure-menu-horizontal">
                 <ul class="pure-menu-list">
                     <li class="pure-menu-item"><a href="index.php" class="pure-menu-link">Home</a></li>
-                    <li class="pure-menu-item"><a href="notifications.php" class="pure-menu-link">Notifications</a></li>
+                    <li class="pure-menu-item"><a href="notification.php" class="pure-menu-link">Notifications</a></li>
                     <li class="pure-menu-item-separator"></li>
                     <li class="pure-menu-item">
                         <div class="search-bar">
@@ -30,16 +30,37 @@
                             </form>
                         </div>
                     </li>
+                    <?php if(Session\is_authentificated()) { ?>
+                    <li class="pure-menu-item">
+                        <a class="pure-menu-link" href="profile.php">My profile</a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a class="pure-menu-link" href="logout.php">Log out</a>
+                    </li>
+                    <?php } else {?>
                     <li class="pure-menu-item">
                         <a class="pure-menu-link" href="login.php">Log in</a>
                     </li>
                     <li class="pure-menu-item">
                         <a class="pure-menu-link" href="signup.php">Sign up</a>
                     </li>
+                    <?php } ?>
                 </ul>                
             </div>
         </div>
     </div>
+    <?php
+        $modal = Session\get_modal();
+        if($modal) {
+    ?>
+    <div class="pure-u-1-3"></div>
+    <div class="pure-u-1-3 block modal modal-<?php echo $modal->type; ?>">
+        <div class="inner-block"><?php echo $modal->content; ?></div>
+    </div>
+    <div class="pure-u-1-3"></div>
+    <?php     
+        }
+    ?>
 <?php $content($vars); ?>
 </div>
 

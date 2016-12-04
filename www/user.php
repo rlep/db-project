@@ -1,4 +1,12 @@
 <?php
-require '../lib/main.php'
-
-require '../lib/closure.php'
+require "../lib/main.php";
+if(!isset($_GET["username"]) {
+    header("Location: index.php");
+}
+elseif(isset($_GET["follow"])) {
+    Controller\User\follow($_GET["username"]);
+}
+else {
+    Controller\User\user_page($_GET["username"]);
+}
+require "../lib/closure.php";

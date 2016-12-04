@@ -1,4 +1,4 @@
 <?php
-require '../lib/main.php'
-
-require '../lib/closure.php'
+require '../lib/main.php';
+Controller\Search\search_post();
+require '../lib/closure.php';

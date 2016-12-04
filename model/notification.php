@@ -17,11 +17,11 @@ namespace Model\Notification;
  */
 function get_like_notifications($uid) {
     return [(object) array(
-        "type" => "liked"
+        "type" => "liked",
         "post" => \Model\Post\get(1),
         "liked_by" => \Model\User\get(3),
-        "date" => new DateTime("NOW"),
-        "reading_date" => new DateTime("NOW")
+        "date" => new \DateTime("NOW"),
+        "reading_date" => new \DateTime("NOW")
     )];
 }
 
@@ -45,11 +45,11 @@ function like_notification_seen($pid, $uid) {
  */
 function get_mention_notifications($uid) {
     return [(object) array(
-        "type" => "mentioned"
+        "type" => "mentioned",
         "post" => \Model\Post\get(1),
         "mentioned_by" => \Model\User\get(3),
-        "date" => new DateTime("NOW"),
-        "reading_date" => new DateTime("NOW")
+        "date" => new \DateTime("NOW"),
+        "reading_date" => new \DateTime("NOW")
     )];
 }
 
@@ -72,10 +72,10 @@ function mention_notification_seen($uid, $pid) {
  */
 function get_following_notifications($uid) {
     return [(object) array(
-        "type" => "followed"
+        "type" => "followed",
         "user" => \Model\User\get(1),
-        "date" => new DateTime("NOW"),
-        "reading_date" => new DateTime("NOW")
+        "date" => new \DateTime("NOW"),
+        "reading_date" => new \DateTime("NOW")
     )];
 }
 
@@ -98,7 +98,7 @@ function list_all_notifications($uid) {
     return usort(
         array_merge(get_like_notifications($uid), get_following_notifications($uid), get_mention_notifications($uid)),
         function($a, $b) {
-            return $b->date->format('U') - $a->date->format('U')
+            return $b->date->format('U') - $a->date->format('U');
         }
     );
 }

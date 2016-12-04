@@ -30,7 +30,7 @@ function get($id) {
  * @param email the user's email
  * @param avatar_path the temporary path to the user's avatar
  * @return the id which was assigned to the created user
- * @warning this function enciphers the password
+ * @warning this function hashes the password
  */
 function create($username, $name, $password, $email, $avatar_path) {
     return 1337;
@@ -53,7 +53,7 @@ function modify($uid, $username, $name, $email) {
  * @param uid the user's id to modify
  * @param new_password the new password
  * @return true if everything went fine, false else
- * @warning this function enciphers the password
+ * @warning this function hashes the password
  */
 function change_password($uid, $new_password) {
     return false;
@@ -79,6 +79,15 @@ function destroy($id) {
 }
 
 /**
+ * Hash a user password
+ * @param password the clear password to hash
+ * @return the hashed password
+ */
+function hash_password($password) {
+    return $password;
+}
+
+/**
  * Search a user
  * @param string the string to search in the name or username
  * @return an array of find objects
@@ -100,9 +109,10 @@ function list_all() {
 /**
  * Get a user from its username
  * @param username the searched user's username
+ * @return the user object or null if the user doesn't exist
  */
 function get_by_username($username) {
-    return [get(1)];
+    return null;
 }
 
 /**
@@ -115,14 +125,36 @@ function get_followers($uid) {
 }
 
 /**
+ * Get a user's stats
+ * @param uid the user's id
+ * @return an object which describes the stats
+ */
+function get_stats($uid) {
+    return (object) array(
+        "nb_posts" => 10,
+        "nb_followers" => 50,
+        "nb_following" => 66
+    );
+}
+
+/**
  * Verify the user authentification
- * @param username
- * @param password
- * @return the user object or false if authentification failed
- * @warning this function enciphers the password
+ * @param username the user's username
+ * @param password the user's password
+ * @return the user object or null if authentification failed
  */
 function check_auth($username, $password) {
-    return false;
+    return null;
+}
+
+/**
+ * Verify the user authentification based on id
+ * @param id the user's id
+ * @param password the user's password (already hashed)
+ * @return the user object or null if authentification failed
+ */
+function check_auth_id($id, $password) {
+    return null;
 }
 
 /**

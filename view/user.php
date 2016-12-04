@@ -10,18 +10,23 @@ main_template(get_defined_vars(), function($vars) {
                     <div class="inner-block">
                         <div class="user-badge">
                             <div class="user-head">
-                                <div class="user-avatar"><img src="/images/avatar.jpg" height="64" width="64"/></div> 
-                                <div class="user-name">John Doe</div>
+                            <div class="user-avatar"><img src="<?php echo $user->avatar;?>" height="64" width="64"/></div> 
+                                <div class="user-name"><?php echo htmlspecialchars($user->name); ?> (<?php echo htmlspecialchars($user->username); ?>)</div>
                             </div>
 
                             <div class="user-infos pure-g">
-                                <div class="pure-u-1-3">10 tweets</div>
-                                <div class="pure-u-1-3">50 followers</div>
-                                <div class="pure-u-1-3">10 following</div>
+                                <div class="pure-u-1-3"><?php echo $stats->nb_posts; ?> twirps</div>
+                                <div class="pure-u-1-3"><?php echo $stats->nb_followers; ?> followers</div>
+                                <div class="pure-u-1-3"><?php echo $stats->nb_following; ?> following</div>
                             </div>
 
                             <div class="user-actions">
-                                <a class="pure-button" href="#">Follow</a>
+                                <?php if ($followable) { ?>
+                                <a class="pure-button" href="?username=<?php echo htmlspecialchars($user->username);?>&follow">Follow</a>
+                                <?php }
+                                if ($editable) { ?>
+                                <a class="pure-button" href="update_profile.php">Edit profile</a>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>

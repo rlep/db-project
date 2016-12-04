@@ -107,3 +107,25 @@ a:hover {
 .end {
     height: 30px;
 }
+
+.modal {
+
+}
+
+.modal-info {
+    background-color: hsl(168, 56%, 90%);
+    color: hsl(168, 56%, 40%);
+    border-color: hsl(168, 56%, 56%);
+}
+
+.modal-success {
+    background-color: hsl(104, 56%, 90%);
+    color: hsl(104, 56%, 40%);
+    border-color: hsl(104, 56%, 56%);
+}
+
+.modal-error {
+    background-color: hsl(0, 56%, 90%);
+    color: hsl(0, 56%, 40%);
+    border-color: hsl(0, 56%, 56%);
+}

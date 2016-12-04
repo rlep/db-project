@@ -1,4 +1,4 @@
 <?php
 require '../lib/main.php';
-Controller\Hashtag\hashtag_page()
+\Controller\User\logout();
 require '../lib/closure.php';

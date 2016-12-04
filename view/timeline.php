@@ -22,12 +22,14 @@ main_template(get_defined_vars(), function($vars) {
             </div>
             <div class="pure-u-2-3">
                 <div class="block">
+                    <?php if (Session\is_authentificated()) { ?>
                     <form class="pure-form write-twirp inner-block">
                         <fieldset>
                             <textarea name="twirp" rows="1" placeholder="'Sup ?"></textarea>
                             <button type="submit" class="pure-button pure-button-primary">Twirp</button>
                         </fieldset>
                     </form>
+                    <?php } ?>
 
                     <div class="post inner-block">
                         <div class="post-avatar">

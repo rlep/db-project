@@ -1,4 +1,4 @@
 <?php
-require '../lib/main.php'
-
-require '../lib/closure.php'
+require '../lib/main.php';
+Controller\Main\main();
+require '../lib/closure.php';

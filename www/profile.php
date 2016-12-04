@@ -1,4 +1,4 @@
 <?php
 require '../lib/main.php';
-Controller\Hashtag\hashtag_page()
+Controller\User\profile();
 require '../lib/closure.php';

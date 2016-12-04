@@ -17,8 +17,8 @@ function get($id) {
     return (object) array(
         "id" => 1337,
         "post_content" => "Text",
-        "date" => new DateTime('2011-01-01T15:03:01'),
-        "author" => Model\User\get(2)
+        "date" => new \DateTime('2011-01-01T15:03:01'),
+        "author" => \Model\User\get(2)
     );
 }
 
@@ -36,8 +36,8 @@ function get_with_joins($id) {
     return (object) array(
         "id" => 1337,
         "post_content" => "Ima writing a post !",
-        "date" => new DateTime('2011-01-01T15:03:01'),
-        "author" => Model\User\get(2),
+        "date" => new \DateTime('2011-01-01T15:03:01'),
+        "author" => \Model\User\get(2),
         "likes" => [],
         "hashtags" => [],
         "responds_to" => null
@@ -78,11 +78,21 @@ function search($string) {
 }
 
 /**
+ * Get a user's posts
+ * @param id the user's id
+ * @return the list of posts objects
+ */
+function list_user_posts($id) {
+    return [get(1)];
+}
+
+/**
  * List posts
+ * @param date_sorted the type of sorting on date (false if no sorting asked), "DESC" or "ASC" otherwise
  * @return an array of the objects of each post
  * @warning this function does not return the passwords
  */
-function list_all() {
+function list_all($date_sorted=false) {
     return [get(1)];
 }
 
