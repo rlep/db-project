@@ -1,4 +1,4 @@
-<?php function main_template($content) { ?>
+<?php function main_template($vars, $content) { ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -40,7 +40,7 @@
             </div>
         </div>
     </div>
-<?php $content(); ?>
+<?php $content($vars); ?>
 </div>
 
 <script src="https://yui-s.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
