@@ -10,12 +10,7 @@ main_template(get_defined_vars(), function($vars) {
                     <div class="inner-block">
                         <h2>Trending Topics</h2>
                         <ul>
-                            <li><a href="hashtag.php?h=PrimaireDroite">#PrimaireDroite</a></li>
-                            <li><a href="hashtag.php?h=Fillon">#Fillon</a></li>
-                            <li><a href="hashtag.php?h=ZoneTéléchargement">#ZoneTéléchargement</a></li>
-                            <li><a href="hashtag.php?h=24hDeBaba">#24hDeBaba</a></li>
-                            <li><a href="hashtag.php?h=UnSloganPourLaSNCF">#UnSloganPourLaSNCF</a></li>
-                            <li><a href="hashtag.php?h=ACAB">#ACAB</a></li>
+                            <?php \View\Partials\Hashtag\hashtag_list($popular_h); ?>
                         </ul>
                     </div>
                 </div>

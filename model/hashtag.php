@@ -20,16 +20,25 @@ function list_hashtags() {
  * @return a list of hashtags
  */
 function list_popular_hashtags($length) {
-    return [];
+    return ["Hallo"];
 }
 
 /**
  * Get posts for a hashtag
  * @param hashtag the hashtag's id
- * @return a list of posts objects
+ * @return a list of posts objects or null if the hashtag doesn't exist
  */
-function get_posts($hashtag) {
-    return [];
+function get_posts($hashtag_name) {
+    return [\Model\Post\get(1)];
+}
+
+/** Get related hashtags
+ * @param hashtag_name the hashtag name
+ * @param length the size of the returned list
+ * @return an array of hashtags names
+ */
+function get_related_hashtags($hashtag_name, $length) {
+    return ["Hello"];
 }
 
 /**
