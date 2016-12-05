@@ -25,8 +25,9 @@
                     <li class="pure-menu-item-separator"></li>
                     <li class="pure-menu-item">
                         <div class="search-bar">
-                            <form class="pure-form" action="search.php">
-                                <input type="text" class="pure-input-rounded" placeholder="Search"/>
+                            <form class="pure-form" action="search.php" method="get">
+                                <input type="hidden" name="post"/>
+                                <input type="text" name="query" class="pure-input-rounded" placeholder="Search"/>
                             </form>
                         </div>
                     </li>

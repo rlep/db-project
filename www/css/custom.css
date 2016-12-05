@@ -32,7 +32,7 @@ a:hover {
     padding: .5em 1em;
 }
 
-.search-bar input {
+.search-bar input[name="query"] {
     height: 2em;
 }
 
