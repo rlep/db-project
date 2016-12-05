@@ -11,18 +11,18 @@ main_template(get_defined_vars(), function($vars) {
                 <div class="block">
                     <div class="post inner-block main-post">
                         <div class="post-avatar">
-                            <a href="user.php?username=<?php echo $post->author->username?>">
-                                <img class="email-avatar" src="<?php echo $post->author->avatar; ?>" height="64" width="64">
+                            <a href="user.php?username=<?php echo htmlspecialchars($post->author->username); ?>">
+                                <img class="email-avatar" src="<?php echo htmlspecialchars($post->author->avatar); ?>" height="64" width="64">
                             </a>
                         </div>
 
                         <div class="post-content">
                             <div class="post-author">
-                                <a href="user.php?username=<?php echo $post->author->username?>">
-                                    <?php echo $post->author->name; ?> (<?php echo $post->author->username; ?>)
+                                <a href="user.php?username=<?php echo htmlspecialchars($post->author->username);?>">
+                                    <?php echo $post->author->name; ?> (<?php echo htmlspecialchars($post->author->username); ?>)
                                 </a>
                             </div>
-                            <div class="text"><?php echo $post->text; ?></div>
+                            <div class="text"><?php htmlspecialchars(echo $post->text); ?></div>
                         </div>
                         <div class="pure-g post-actions">
                             <div class="pure-u-1-3"><a href="post.php?id=<?php echo $post->id; ?>&like">Like</a> (<?php echo $stats->nb_likes; ?>)</div>
@@ -30,7 +30,7 @@ main_template(get_defined_vars(), function($vars) {
                     </div>
                     <form class="pure-form write-twirp answer-twirp inner-block" action="post.php?id=<?php echo $post->id;?>" method="post">
                         <fieldset>
-                            <textarea name="post_content" rows="1"></textarea>
+                            <textarea name="post_content" rows="1">@<?php echo htmlspecialchars($post->author->username); ?></textarea>
                             <button type="submit" class="pure-button pure-button-primary">Respond</button>
                         </fieldset>
                     </form>

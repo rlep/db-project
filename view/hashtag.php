@@ -16,7 +16,7 @@ main_template(get_defined_vars(), function($vars) {
                 <div class="block">
                     <form class="pure-form write-twirp inner-block" action="post.php" method="post">
                         <fieldset>
-                            <textarea name="text" rows="1">#<?php echo $name; ?> </textarea>
+                            <textarea name="text" rows="1">#<?php echo htmlspecialchars($name); ?> </textarea>
                             <button type="submit" class="pure-button pure-button-primary">Twirp</button>
                         </fieldset>
                     </form>

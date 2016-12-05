@@ -10,7 +10,7 @@ main_template(get_defined_vars(), function($vars) {
                     <div class="inner-block">
                         <div class="user-badge">
                             <div class="user-head">
-                            <div class="user-avatar"><img src="<?php echo $user->avatar;?>" height="64" width="64"/></div> 
+                            <div class="user-avatar"><img src="<?php echo htmlspecialchars($user->avatar);?>" height="64" width="64"/></div> 
                                 <div class="user-name"><?php echo htmlspecialchars($user->name); ?> (<?php echo htmlspecialchars($user->username); ?>)</div>
                             </div>
 
