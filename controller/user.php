@@ -73,7 +73,7 @@ function signup($form, $files) {
 
     extract($form);
     if(\Model\User\get_by_username($username)) {
-        \Session\set_error("There was an error during profile update : the username you've chosen has already been taken.");
+        \Session\set_error("There was an error during signup : the username you've chosen has already been taken.");
         header("Location: signup.php");
         return;
     }
