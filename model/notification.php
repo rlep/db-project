@@ -36,41 +36,41 @@ function like_notification_seen($pid, $uid) {
 }
 
 /**
- * Get a mention notification in db
+ * Get a mentioned notification in db
  * @param uid the id of the user in db
  * @return a list of objects for each like notification
  * @warning the post attribute is a post object
  * @warning the mentioned_by attribute is a user object
  * @warning the reading_date object is either a DateTime object or null (if it hasn't been read)
  */
-function get_mention_notifications($uid) {
+function get_mentioned_notifications($uid) {
     return [(object) array(
         "type" => "mentioned",
         "post" => \Model\Post\get(1),
         "mentioned_by" => \Model\User\get(3),
         "date" => new \DateTime("NOW"),
-        "reading_date" => new \DateTime("NOW")
+        "reading_date" => null
     )];
 }
 
 /**
- * Mark a mention notification as read (with date of reading)
+ * Mark a mentioned notification as read (with date of reading)
  * @param uid the user that has been mentioned
  * @param pid the post where the user was mentioned
  * @return true if everything went ok, false else
  */
-function mention_notification_seen($uid, $pid) {
+function mentioned_notification_seen($uid, $pid) {
     return false;
 }
 
 /**
- * Get a following notification in db
+ * Get a followed notification in db
  * @param uid the id of the user in db
  * @return a list of objects for each like notification
- * @warning the user attribute is a user object
+ * @warning the user attribute is a user object which corresponds to the user following.
  * @warning the reading_date object is either a DateTime object or null (if it hasn't been read)
  */
-function get_following_notifications($uid) {
+function get_followed_notifications($uid) {
     return [(object) array(
         "type" => "followed",
         "user" => \Model\User\get(1),
@@ -80,12 +80,12 @@ function get_following_notifications($uid) {
 }
 
 /**
- * Mark a following notification as read (with date of reading)
+ * Mark a followed notification as read (with date of reading)
  * @param followed_id the user id which has been followed
  * @param follower_id the user id that is following
  * @return true if everything went ok, false else
  */
-function following_notification_seen($followed_id, $follower_id) {
+function followed_notification_seen($followed_id, $follower_id) {
     return false;
 }
 
@@ -95,10 +95,34 @@ function following_notification_seen($followed_id, $follower_id) {
  * @return a sorted list of every notifications objects
  */
 function list_all_notifications($uid) {
-    return usort(
-        array_merge(get_like_notifications($uid), get_following_notifications($uid), get_mention_notifications($uid)),
+    $ary = array_merge(get_like_notifications($uid), get_followed_notifications($uid), get_mentioned_notifications($uid));
+    usort(
+        $ary,
         function($a, $b) {
             return $b->date->format('U') - $a->date->format('U');
         }
     );
+    return $ary;
 }
+
+/**
+ * Mark a notification as read (with date of reading)
+ * @param uid the user to whom modify the notifications
+ * @param notification the notification object to mark as seen
+ * @return true if everything went ok, false else
+ */
+function notification_seen($uid, $notification) {
+    switch($notification->type) {
+        case "like":
+            return like_notification_seen($notification->post->id, $notification->liked_by->id);
+        break;
+        case "mentioned":
+            return mentioned_notification_seen($uid, $notification->post->id);
+        break;
+        case "followed":
+            return followed_notification_seen($uid, $notification->user->id);
+        break;
+    }
+    return false;
+}
+
