@@ -7,6 +7,16 @@ namespace Model\Hashtag;
  */
 
 /**
+ * Attach a hashtag to a post
+ * @param pid the post id to which attach the hashtag
+ * @param hashtag_name the name of the hashtag to attach
+ * @return true or false (if something went wrong)
+ */
+function attach($pid, $hashtag_name) {
+    return false;
+}
+
+/**
  * List hashtags
  * @return a list of hashtags names
  */
@@ -25,7 +35,7 @@ function list_popular_hashtags($length) {
 
 /**
  * Get posts for a hashtag
- * @param hashtag the hashtag's id
+ * @param hashtag the hashtag name
  * @return a list of posts objects or null if the hashtag doesn't exist
  */
 function get_posts($hashtag_name) {
@@ -39,13 +49,4 @@ function get_posts($hashtag_name) {
  */
 function get_related_hashtags($hashtag_name, $length) {
     return ["Hello"];
-}
-
-/**
- * Get or create a hashtag
- * @param name the name of the (possibly) new hashtag
- * @return the (possibly) new hashtag's id or null (if something went wrong)
- */
-function get_or_create($hashtag_name) {
-    return null;
 }

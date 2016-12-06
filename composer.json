@@ -1,5 +1,6 @@
 {
     "require": {
-        "codeception/codeception": "2.2.6"
+        "phpunit/phpunit": "5.5.*",
+        "phpdocumentor/phpdocumentor": "2.*"
     }
 }

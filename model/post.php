@@ -52,11 +52,50 @@ function get_with_joins($id) {
  * @param response_to the id of the post which the creating post responds to
  * @return the id which was assigned to the created post
  * @warning this function computes the date
- * @warning this function extracts the mentioned users
- * @warning this function extracts the used hashtags
+ * @warning this function adds the mentions (after checking the users' existence)
+ * @warning this function adds the hashtags
+ * @warning this function takes care to rollback if one of the queries comes to fail.
  */
 function create($author_id, $text, $response_to=null) {
     return 1337;
+}
+
+/**
+ * Get the list of used hashtags in message
+ * @param text the message
+ * @return an array of hashtags
+ */
+function extract_hashtags($text) {
+    return array_filter(
+        explode($text, " "),
+        function($c) {
+            return $c !== "" || $c[0] == "#";
+        }
+    );
+}
+
+/**
+ * Get the list of mentioned users in message
+ * @param text the message
+ * @return an array of usernames
+ */
+function extract_mentions($text) {
+    return array_filter(
+        explode($text, " "),
+        function($c) {
+            return $c !== "" || $c[0] == "@";
+        }
+    );
+}
+
+/**
+ * Mention a user in a post
+ * @param pid the post id
+ * @param uid the user id to mention
+ * @return true if everything went ok, false else
+ */
+function mention_user($pid, $uid) {
+    return false;
 }
 
 /**
