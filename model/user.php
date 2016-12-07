@@ -30,6 +30,7 @@ function get($id) {
  * @param email the user's email
  * @param avatar_path the temporary path to the user's avatar
  * @return the id which was assigned to the created user
+ * @warning this function doesn't check whether a user with a similar username exists
  * @warning this function hashes the password
  */
 function create($username, $name, $password, $email, $avatar_path) {
@@ -43,6 +44,7 @@ function create($username, $name, $password, $email, $avatar_path) {
  * @param name the user's name
  * @param email the user's email
  * @return true if everything went fine, false else
+ * @warning this function doesn't check whether a user with a similar username exists
  */
 function modify($uid, $username, $name, $email) {
     return false;
@@ -125,6 +127,15 @@ function get_followers($uid) {
 }
 
 /**
+ * Get the users our user is following
+ * @param uid the user's id
+ * @return a list of users objects
+ */
+function get_followings($uid) {
+    return [get(2)];
+}
+
+/**
  * Get a user's stats
  * @param uid the user's id
  * @return an object which describes the stats
@@ -166,3 +177,14 @@ function check_auth_id($id, $password) {
 function follow($id, $id_to_follow) {
     return false;
 }
+
+/**
+ * Unfollow a user
+ * @param id the current user's id
+ * @param id_to_follow the user's id to unfollow
+ * @return true if the user has been unfollowed, false else
+ */
+function unfollow($id, $id_to_unfollow) {
+    return false;
+}
+
