@@ -117,10 +117,22 @@ class PostTest extends TestCase
         $pid2 = Post\create($users[1]->id, "this is a searchid2 test");
         $posts = Post\list_all("DESC");
         $this->assertEquals($posts[0]->id, $pid2);
-        $this->assertEquals($posts[0]->id, $pid1);
+        $this->assertEquals($posts[1]->id, $pid1);
         $posts = Post\list_all("ASC");
         $this->assertEquals($posts[0]->id, $pid1);
-        $this->assertEquals($posts[0]->id, $pid2);
+        $this->assertEquals($posts[1]->id, $pid2);
+    }
+
+    public function tearDown()
+    {
+        foreach(Post\list_all() as $post)
+        {
+            Post\destroy($post->id);
+        }
+        foreach($this->users as $u)
+        {
+            User\destroy($u->id);
+        }
     }
 }
 ?>

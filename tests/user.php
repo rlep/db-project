@@ -142,5 +142,13 @@ class UserTest extends TestCase
         $this->assertEquals(1, count($l));
         $this->assertEqual($l[0], $users[1]);
     }
+
+    public function tearDown()
+    {
+        foreach(User\list_all() as $u)
+        {
+            User\destroy($u->id);
+        }
+    }
 }
 ?>
