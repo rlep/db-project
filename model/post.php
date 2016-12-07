@@ -50,7 +50,7 @@ function get_with_joins($id) {
  * @param text the message
  * @param mentioned_authors the array of ids of users who are mentioned in the post
  * @param response_to the id of the post which the creating post responds to
- * @return the id which was assigned to the created post
+ * @return the id which was assigned to the created post, null if anything got wrong
  * @warning this function computes the date
  * @warning this function adds the mentions (after checking the users' existence)
  * @warning this function adds the hashtags
@@ -99,6 +99,15 @@ function mention_user($pid, $uid) {
 }
 
 /**
+ * Get mentioned user in post
+ * @param pid the post id
+ * @return the array of user objects mentioned
+ */
+function get_mentioned($pid) {
+    return [];
+}
+
+/**
  * Delete a post in db
  * @param id the id of the post to delete
  * @return true if the post has been correctly deleted, false else
@@ -117,15 +126,6 @@ function search($string) {
 }
 
 /**
- * Get a user's posts
- * @param id the user's id
- * @return the list of posts objects
- */
-function list_user_posts($id) {
-    return [get(1)];
-}
-
-/**
  * List posts
  * @param date_sorted the type of sorting on date (false if no sorting asked), "DESC" or "ASC" otherwise
  * @return an array of the objects of each post
@@ -133,6 +133,16 @@ function list_user_posts($id) {
  */
 function list_all($date_sorted=false) {
     return [get(1),get(1),get(1),get(1),get(1),get(1)];
+}
+
+/**
+ * Get a user's posts
+ * @param id the user's id
+ * @param date_sorted the type of sorting on date (false if no sorting asked), "DESC" or "ASC" otherwise
+ * @return the list of posts objects
+ */
+function list_user_posts($id, $date_sorted="DESC") {
+    return [get(1)];
 }
 
 /**
