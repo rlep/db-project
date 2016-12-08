@@ -70,6 +70,9 @@ class PostTest extends TestCase
         $post = Post\get_with_joins($pid);
         $this->assertEquals(count($post->likes), 1);
         $this->assertTrue($post->likes[0] == $this->users[1]);
+        $this->assertTrue(User\unlike($this->users[1]->id, $pid));
+        $post = Post\get_with_joins($pid);
+        $this->assertEmpty($post->likes);
     }
 
     /**

@@ -182,3 +182,14 @@ function get_stats($pid) {
 function like($uid, $pid) {
     return false;
 }
+
+/**
+ * Unlike a post
+ * @param uid the user's id to unlike the post
+ * @param pid the post's id to be unliked
+ * @return true if the post has been unliked, false else
+ */
+function like($uid, $pid) {
+    return false;
+}
+
