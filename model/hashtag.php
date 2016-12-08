@@ -26,7 +26,7 @@ function list_hashtags() {
 
 /**
  * List hashtags sorted per popularity (number of posts using each)
- * @param length number of hashtags to get
+ * @param length number of hashtags to get at most
  * @return a list of hashtags
  */
 function list_popular_hashtags($length) {
@@ -44,7 +44,7 @@ function get_posts($hashtag_name) {
 
 /** Get related hashtags
  * @param hashtag_name the hashtag name
- * @param length the size of the returned list
+ * @param length the size of the returned list at most
  * @return an array of hashtags names
  */
 function get_related_hashtags($hashtag_name, $length) {
