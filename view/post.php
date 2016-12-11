@@ -22,7 +22,7 @@ main_template(get_defined_vars(), function($vars) {
                                     <?php echo $post->author->name; ?> (<?php echo htmlspecialchars($post->author->username); ?>)
                                 </a>
                             </div>
-                            <div class="text"><?php htmlspecialchars(echo $post->text); ?></div>
+                            <div class="text"><?php echo htmlspecialchars($post->text); ?></div>
                         </div>
                         <div class="pure-g post-actions">
                             <div class="pure-u-1-3"><a href="post.php?id=<?php echo $post->id; ?>&like">Like</a> (<?php echo $stats->nb_likes; ?>)</div>

@@ -21,9 +21,16 @@ main_template(get_defined_vars(), function($vars) {
                             </div>
 
                             <div class="user-actions">
-                                <?php if ($followable) { ?>
+                                <?php if ($followable) { 
+                                    if ($followed) { ?>
+                                <a class="pure-button" href="?username=<?php echo htmlspecialchars($user->username);?>&unfollow">Unfollow</a>
+                                <?php
+                                    }
+                                    else {
+                                ?>
                                 <a class="pure-button" href="?username=<?php echo htmlspecialchars($user->username);?>&follow">Follow</a>
                                 <?php }
+                                }
                                 if ($editable) { ?>
                                 <a class="pure-button" href="update_profile.php">Edit profile</a>
                                 <?php } ?>

@@ -18,9 +18,9 @@ main_template(get_defined_vars(), function($vars) {
             <div class="pure-u-2-3">
                 <div class="block">
                     <?php if (Session\is_authentificated()) { ?>
-                    <form class="pure-form write-twirp inner-block">
+                    <form class="pure-form write-twirp inner-block" action="post.php" method="post">
                         <fieldset>
-                            <textarea name="twirp" rows="1" placeholder="'Sup ?"></textarea>
+                            <textarea name="text" rows="1" placeholder="'Sup ?"></textarea>
                             <button type="submit" class="pure-button pure-button-primary">Twirp</button>
                         </fieldset>
                     </form>

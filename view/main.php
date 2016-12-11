@@ -21,7 +21,19 @@
             <div class="pure-menu-horizontal">
                 <ul class="pure-menu-list">
                     <li class="pure-menu-item"><a href="index.php" class="pure-menu-link">Home</a></li>
-                    <li class="pure-menu-item"><a href="notification.php" class="pure-menu-link">Notifications</a></li>
+                    <?php if(Session\is_authentificated()) {
+                        $n = \Model\Notification\list_all_notifications(Session\get_user()->id);
+                        $nb_notif = count(array_filter($n,
+                            function($el) {
+                                return $el->reading_date === null;
+                            }
+                        ));
+                        if($nb_notif != 0) {
+                            $nb_notif = " ($nb_notif)";
+                        }
+                    ?>
+                    <li class="pure-menu-item"><a href="notification.php" class="pure-menu-link">Notifications<?php echo $nb_notif; ?></a></li>
+                    <?php }?>
                     <li class="pure-menu-item-separator"></li>
                     <li class="pure-menu-item">
                         <div class="search-bar">

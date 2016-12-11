@@ -10,9 +10,15 @@ function user_page($username) {
     }
     $stats = \Model\User\get_stats($user->id);
     $posts = \Model\Post\list_user_posts($user->id);
+    $followings = \Model\User\get_followings($user->id);
+    $followers = \Model\User\get_followers($user->id);
     if (\Session\is_authentificated()) {
-        $editable = \Session\get_user()->id == $user->id;
+        $me = \Session\get_user();
+        $editable = $me->id == $user->id;
         $followable = !$editable;
+        if ($followable) {
+            $followed = in_array($me->id, array_map(function($u) { return $u->id; }, $followers));
+        }
     }
     else {
         $editable = false;
@@ -33,12 +39,35 @@ function follow($username) {
         header("Location: index.php");
         return;
     }
-    if(\Mode\User\follow($user->id, $to_follow->id)) {
+    if(\Model\User\follow($user->id, $to_follow->id)) {
         \Session\set_success("You are following " . $to_follow->username . ".");
+        header("Location: user.php?username=".$to_follow->username);
     }
     else {
-        \Session\set_error("An error occured while trying to follow.".$to_follow->username);
+        \Session\set_error("An error occured while trying to follow ".$to_follow->username);
         header("Location: user.php?username=".$to_follow->username);
+    }
+}
+
+function unfollow($username) {
+    if(!\Session\is_authentificated()) {
+        header("Location: index.php");
+        return;
+    }
+    $user = \Session\get_user();
+    $to_unfollow = \Model\User\get_by_username($username);
+    if(!$to_unfollow) {
+        \Session\set_error("The user you've been searching for doesn't exist.");
+        header("Location: index.php");
+        return;
+    }
+    if(\Model\User\unfollow($user->id, $to_unfollow->id)) {
+        \Session\set_success("You unfollowed " . $to_unfollow->username . ".");
+        header("Location: user.php?username=".$to_unfollow->username);
+    }
+    else {
+        \Session\set_error("An error occured while trying to unfollow ".$to_unfollow->username);
+        header("Location: user.php?username=".$to_unfollow->username);
     }
 }
 
@@ -51,6 +80,8 @@ function profile() {
     $user = \Session\get_user();
     $posts = \Model\Post\list_user_posts($user->id);
     $stats = \Model\User\get_stats($user->id);
+    $followings = \Model\User\get_followings($user->id);
+    $followers = \Model\User\get_followers($user->id);
     $editable = true;
     $followable = false;
     require "../view/user.php";
@@ -115,7 +146,7 @@ function login_page() {
 }
 
 function logout() {
-    Session\destroy();
+    \Session\destroy();
     header("Location: index.php");
 }
 

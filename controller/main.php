@@ -3,7 +3,7 @@ namespace Controller\Main;
 function main() {
     $user = \Session\get_user();
     if($user) {
-        $post = array();
+        $posts = array();
         $f = array_map(function($u){
             return $u->id;
         }, \Model\User\get_followings($user->id));
