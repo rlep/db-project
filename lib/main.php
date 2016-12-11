@@ -8,6 +8,7 @@ function require_wildcard($w) {
 }
 
 require "session.php";
+require "db.php";
 
 require_wildcard("../model/*.php");
 require_wildcard("../controller/*.php");

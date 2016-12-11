@@ -13,15 +13,15 @@ class UserTest extends TestCase
             "user1@mail.com",
             ""
         );
-        $this->assertTrue($uid);
+        $this->assertNotNull($uid);
         $user = User\get($uid);
         $this->assertEquals($user->id, $uid);
         $this->assertEquals($user->username, "user1");
         $this->assertEquals($user->name, "User 1");
         $this->assertEquals($user->email, "user1@mail.com");
         $this->assertEquals($user->username, "user1");
-        $this->assertTrue($user == User\check_auth($user->username, "password"));
-        $this->assertTrue($user == User\check_auth_id($uid, "password"));
+        $this->assertEquals($user, User\check_auth($user->username, "password"));
+        $this->assertEquals($user, User\check_auth_id($uid, "password"));
         return $uid;
     }
 
@@ -30,6 +30,7 @@ class UserTest extends TestCase
      */
     public function testModify($uid)
     {
+        $user = User\get($uid);
         $this->assertTrue(
             User\modify(
                 $uid,
@@ -94,8 +95,8 @@ class UserTest extends TestCase
         foreach($users as $u) {
             $r = User\search($u->name);
 
-            $this->assertEqual(1, count($r));
-            $this->assertEqual($r[0], $u);
+            $this->assertEquals(1, count($r));
+            $this->assertEquals($r[0], $u);
         }
         
         return $users;
@@ -107,7 +108,7 @@ class UserTest extends TestCase
     public function testGetByUsername($users)
     {
         foreach($users as $u) {
-            $this->assertEqual(User\get_by_username($u->username), $u);
+            $this->assertEquals(User\get_by_username($u->username), $u);
         }
         return $users;
     }
@@ -121,11 +122,11 @@ class UserTest extends TestCase
 
         $l = User\get_followers($users[1]->id);
         $this->assertEquals(1, count($l));
-        $this->assertEqual($l[0], $users[0]);
+        $this->assertEquals($l[0], $users[0]);
 
         $l = User\get_followings($users[0]->id);
         $this->assertEquals(1, count($l));
-        $this->assertEqual($l[0], $users[1]);
+        $this->assertEquals($l[0], $users[1]);
 
         $this->assertTrue(User\unfollow($users[0]->id, $users[1]->id));
         $this->assertEmpty(User\get_followings($users[0]->id));
@@ -141,10 +142,9 @@ class UserTest extends TestCase
         $this->assertTrue(User\destroy($users[0]->id));
         $l = User\list_all();
         $this->assertEquals(1, count($l));
-        $this->assertEqual($l[0], $users[1]);
+        $this->assertEquals($l[0], $users[1]);
     }
-
-    public function tearDown()
+    public static function tearDownAfterClass()
     {
         foreach(User\list_all() as $u)
         {
