@@ -13,7 +13,7 @@ class Db {
     }
 
     public static function connect($testing=false) {
-        $config = Yaml::parse(file_get_contents("config/db.yaml"));
+        $config = Yaml::parse(file_get_contents(dirname(__FILE__)."/../config/db.yaml"));
         $o = $testing ? $config["test"] : $config["app"];
         
         self::$connection = new PDO('mysql:host='.$o["server"].';dbname='.$o["db"].';charset=utf8', $o["username"], $o["password"]);

@@ -111,6 +111,8 @@ class UserTest extends TestCase
         foreach($users as $u) {
             $this->assertEquals(User\get_by_username($u->username), $u);
         }
+
+        $this->assertNull(User\get_by_username("nothing called like it"));
         return $users;
     }
 

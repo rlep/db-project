@@ -82,7 +82,7 @@ function signup($form, $files) {
         header("Location: index.php");
     }
     else {
-        Session\set_error("There was an error during signup.");
+        \Session\set_error("There was an error during signup.");
         header("Location: signup.php");
     }
         

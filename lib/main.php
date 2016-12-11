@@ -8,7 +8,10 @@ function require_wildcard($w) {
 }
 
 require "session.php";
+require "../vendor/autoload.php";
 require "db.php";
+
+Db::connect();
 
 require_wildcard("../model/*.php");
 require_wildcard("../controller/*.php");
