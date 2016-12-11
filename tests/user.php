@@ -147,6 +147,7 @@ class UserTest extends TestCase
         $this->assertEquals(1, count($l));
         $this->assertEquals($l[0], $users[1]);
     }
+
     public static function tearDownAfterClass()
     {
         \Db::flush();

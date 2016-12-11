@@ -18,17 +18,17 @@ class HashtagTest extends TestCase
             "user1@mail.com",
             ""
         );
-        $this->pids[] = Post\create($uid, "This is a sample text");
-        $this->pids[] = Post\create($uid, "This is a sample text #hashtag1");               
-        $this->pids[] = Post\create($uid, "This is a sample text #hashtag1");               
-        $this->pids[] = Post\create($uid, "This is a sample text #hashtag2");               
-        $this->pids[] = Post\create($uid, "This is a sample text #hashtag2");               
-        $this->pids[] = Post\create($uid, "This is a sample text #hashtag2");               
-        $this->pids[] = Post\create($uid, "This is a sample text #hashtag3");               
-        $this->pids[] = Post\create($uid, "This is a sample text #hashtag3");               
-        $this->pids[] = Post\create($uid, "This is a sample text #hashtag3");               
-        $this->pids[] = Post\create($uid, "This is a sample text #hashtag3");               
-        $this->pids[] = Post\create($uid, "Two hashtags #hash #tag");
+        $this->pids[] = Post\create($this->uid, "This is a sample text");
+        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag1");               
+        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag1");               
+        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag2");               
+        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag2");               
+        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag2");               
+        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag3");               
+        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag3");               
+        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag3");               
+        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag3");               
+        $this->pids[] = Post\create($this->uid, "Two hashtags #hash #tag");
     }
 
     public function testAttach()
@@ -69,13 +69,9 @@ class HashtagTest extends TestCase
         $this->assertEquals($h[0], "tag");
     }
 
-    public function tearDown()
+    public static function tearDownAfterClass()
     {
-        User\destroy($this->uid);
-        foreach($this->pids as $pid)
-        {
-            Post\destroy($pid);
-        }
+        \Db::flush();
     }
 }
 ?>

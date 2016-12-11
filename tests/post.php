@@ -4,8 +4,8 @@ use \Model\Post;
 use \Model\User;
 class PostTest extends TestCase
 {
-    protected $users;
-    public function setUp()
+    protected static $users;
+    public function setUpBeforeClasses()
     {
         User\create(
             "userpost1",
@@ -21,19 +21,19 @@ class PostTest extends TestCase
             "user2@mail.com",
             ""
         );
-        $this->users = User\list_all();
+        self::$users = User\list_all();
     }
 
     public function testCreate()
     {
-        $uid = $this->users[0]->id;
+        $uid = self::$users[0]->id;
         $pid = Post\create($uid, "This is a sample text");
         $this->assertTrue($pid !== null);
         $post = Post\get($pid);
         $this->assertEquals($post->author->id, $pid);
         $this->assertEquals($post->text, "This is a sample text");
         $this->assertEquals($post->id, $pid);
-        return $pid
+        return $pid;
     }
 
     /**
@@ -41,7 +41,7 @@ class PostTest extends TestCase
      */  
     public function testRespond($pid)
     {
-        $uid = $this->users[1]->id;
+        $uid = self::$users[1]->id;
         $new_pid = Post\create($uid, "This is a sample response", $pid);
         $post = Post\get_with_joins($new_pid);
         $this->assertTrue($post->responds_to == Post\get($pid));
@@ -53,11 +53,11 @@ class PostTest extends TestCase
      */  
     public function testMentionUser()
     {
-        $uid = $this->users[0]->id;
-        $pid = Post\create($uid, "@".$this->users[1]->username);
+        $uid = self::$users[0]->id;
+        $pid = Post\create($uid, "@".self::$users[1]->username);
         $m = Post\get_mentioned($pid);
         $this->assertEquals(count($m), 1);
-        $this->assertTrue($this->users[1] == $m[0]);
+        $this->assertTrue(self::$users[1] == $m[0]);
         return $pid;
     }
 
@@ -66,11 +66,11 @@ class PostTest extends TestCase
      */  
     public function testLike($pid)
     {
-        $this->assertTrue(User\like($this->users[1]->id, $pid));
+        $this->assertTrue(User\like(self::$users[1]->id, $pid));
         $post = Post\get_with_joins($pid);
         $this->assertEquals(count($post->likes), 1);
-        $this->assertTrue($post->likes[0] == $this->users[1]);
-        $this->assertTrue(User\unlike($this->users[1]->id, $pid));
+        $this->assertTrue($post->likes[0] == self::$users[1]);
+        $this->assertTrue(User\unlike(self::$users[1]->id, $pid));
         $post = Post\get_with_joins($pid);
         $this->assertEmpty($post->likes);
     }
@@ -126,16 +126,9 @@ class PostTest extends TestCase
         $this->assertEquals($posts[1]->id, $pid2);
     }
 
-    public function tearDown()
+    public static function tearDownAfterClass()
     {
-        foreach(Post\list_all() as $post)
-        {
-            Post\destroy($post->id);
-        }
-        foreach($this->users as $u)
-        {
-            User\destroy($u->id);
-        }
+        \Db::flush();
     }
 }
 ?>

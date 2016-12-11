@@ -18,7 +18,7 @@ function get($id) {
         "id" => 1337,
         "username" => "yrlgtm",
         "name" => "User 1",
-        "password" => "hashed"
+        "password" => "hashed",
         "email" => "yrlgtm@gmail.com",
         "avatar" => "" 
     );
