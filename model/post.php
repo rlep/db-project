@@ -189,7 +189,7 @@ function like($uid, $pid) {
  * @param pid the post's id to be unliked
  * @return true if the post has been unliked, false else
  */
-function like($uid, $pid) {
+function unlike($uid, $pid) {
     return false;
 }
 

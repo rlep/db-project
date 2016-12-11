@@ -1,6 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
-use \Model\User;
+use Model\User;
+
 class UserTest extends TestCase
 {
     public function testCreate()
@@ -106,7 +107,7 @@ class UserTest extends TestCase
     public function testGetByUsername($users)
     {
         foreach($users as $u) {
-            $this->assertEqual(User\get_by_username($u->username), $u)
+            $this->assertEqual(User\get_by_username($u->username), $u);
         }
         return $users;
     }
@@ -137,7 +138,7 @@ class UserTest extends TestCase
      */
     public function testDestroy($users) 
     {
-        $this->assertTrue(User\destroy($users[0]->id))
+        $this->assertTrue(User\destroy($users[0]->id));
         $l = User\list_all();
         $this->assertEquals(1, count($l));
         $this->assertEqual($l[0], $users[1]);
