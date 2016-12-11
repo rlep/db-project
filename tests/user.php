@@ -119,11 +119,9 @@ class UserTest extends TestCase
      */
     public function testFollow($users)
     {
-        print_r($users);
         $this->assertTrue(User\follow($users[0]->id, $users[1]->id));
 
         $l = User\get_followers($users[1]->id);
-        print_r($l);
         $this->assertEquals(1, count($l));
         $this->assertEquals($users[0], $l[0]);
 
@@ -134,7 +132,7 @@ class UserTest extends TestCase
         $this->assertTrue(User\unfollow($users[0]->id, $users[1]->id));
         $this->assertEmpty(User\get_followings($users[0]->id));
         $this->assertEmpty(User\get_followers($users[1]->id));
-        
+        return $users;
     }
 
     /**
