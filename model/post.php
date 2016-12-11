@@ -1,5 +1,7 @@
 <?php
 namespace Model\Post;
+use \Db;
+use \PDOException;
 /**
  * Post
  *

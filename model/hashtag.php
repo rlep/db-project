@@ -1,5 +1,7 @@
 <?php
 namespace Model\Hashtag;
+use \Db;
+use \PDOException;
 /**
  * Hashtag model
  *

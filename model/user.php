@@ -1,5 +1,7 @@
 <?php
 namespace Model\User;
+use \Db;
+use \PDOException;
 /**
  * User model
  *
@@ -9,14 +11,14 @@ namespace Model\User;
 /**
  * Get a user in db
  * @param id the id of the user in db
- * @return an object containing the attributes of the user or false if error
- * @warning this function does not yield the password
+ * @return an object containing the attributes of the user or null if error or the user doesn't exist
  */
 function get($id) {
     return (object) array(
         "id" => 1337,
         "username" => "yrlgtm",
         "name" => "User 1",
+        "password" => "hashed"
         "email" => "yrlgtm@gmail.com",
         "avatar" => "" 
     );
@@ -29,7 +31,7 @@ function get($id) {
  * @param password the user's password
  * @param email the user's email
  * @param avatar_path the temporary path to the user's avatar
- * @return the id which was assigned to the created user
+ * @return the id which was assigned to the created user, null if an error occured
  * @warning this function doesn't check whether a user with a similar username exists
  * @warning this function hashes the password
  */
@@ -93,7 +95,6 @@ function hash_password($password) {
  * Search a user
  * @param string the string to search in the name or username
  * @return an array of find objects
- * @warning this function does not return the passwords
  */
 function search($string) {
     return [get(1)];
@@ -102,7 +103,6 @@ function search($string) {
 /**
  * List users
  * @return an array of the objects of every users
- * @warning this function does not return the passwords
  */
 function list_all() {
     return [get(1)];
@@ -153,6 +153,7 @@ function get_stats($uid) {
  * @param username the user's username
  * @param password the user's password
  * @return the user object or null if authentification failed
+ * @warning this function must perform the password hashing   
  */
 function check_auth($username, $password) {
     return null;

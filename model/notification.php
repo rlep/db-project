@@ -1,5 +1,7 @@
 <?php
 namespace Model\Notification;
+use \Db;
+use \PDOException;
 /**
  * Notification model
  *
