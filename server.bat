@@ -1,1 +1,1 @@
-php -S localhost:8888 -t www/
+php -S localhost:8888 -t www
