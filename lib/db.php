@@ -24,7 +24,10 @@ class Db {
         
     }
 
-    public static function flush_db() {
-
+    public static function flush() {
+        foreach(self::$connection->query("SHOW TABLES") as $t)
+        {
+            self::$connection->query("DELETE FROM " . $t[0]);
+        }
     }
 }

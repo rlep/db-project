@@ -15,6 +15,7 @@ class UserTest extends TestCase
         );
         $this->assertNotNull($uid);
         $user = User\get($uid);
+        $this->assertNotNull($user);
         $this->assertEquals($user->id, $uid);
         $this->assertEquals($user->username, "user1");
         $this->assertEquals($user->name, "User 1");
@@ -118,15 +119,17 @@ class UserTest extends TestCase
      */
     public function testFollow($users)
     {
+        print_r($users);
         $this->assertTrue(User\follow($users[0]->id, $users[1]->id));
 
         $l = User\get_followers($users[1]->id);
+        print_r($l);
         $this->assertEquals(1, count($l));
-        $this->assertEquals($l[0], $users[0]);
+        $this->assertEquals($users[0], $l[0]);
 
         $l = User\get_followings($users[0]->id);
         $this->assertEquals(1, count($l));
-        $this->assertEquals($l[0], $users[1]);
+        $this->assertEquals($users[1], $l[0]);
 
         $this->assertTrue(User\unfollow($users[0]->id, $users[1]->id));
         $this->assertEmpty(User\get_followings($users[0]->id));
@@ -146,10 +149,7 @@ class UserTest extends TestCase
     }
     public static function tearDownAfterClass()
     {
-        foreach(User\list_all() as $u)
-        {
-            User\destroy($u->id);
-        }
+        \Db::flush();
     }
 }
 ?>
