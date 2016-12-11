@@ -9,7 +9,7 @@ use \PDOException;
  */
 
 /**
- * Get a like notification in db
+ * Get a liked notification in db
  * @param uid the id of the user in db
  * @return a list of objects for each like notification
  * @warning the post attribute is a post object
@@ -17,7 +17,7 @@ use \PDOException;
  * @warning the date attribute is a DateTime object
  * @warning the reading_date attribute is either a DateTime object or null (if it hasn't been read)
  */
-function get_like_notifications($uid) {
+function get_liked_notifications($uid) {
     return [(object) array(
         "type" => "liked",
         "post" => \Model\Post\get(1),
@@ -33,7 +33,7 @@ function get_like_notifications($uid) {
  * @param uid the user id that has liked the post
  * @return true if everything went ok, false else
  */
-function like_notification_seen($pid, $uid) {
+function liked_notification_seen($pid, $uid) {
     return false;
 }
 
@@ -97,7 +97,7 @@ function followed_notification_seen($followed_id, $follower_id) {
  * @return a sorted list of every notifications objects
  */
 function list_all_notifications($uid) {
-    $ary = array_merge(get_like_notifications($uid), get_followed_notifications($uid), get_mentioned_notifications($uid));
+    $ary = array_merge(get_liked_notifications($uid), get_followed_notifications($uid), get_mentioned_notifications($uid));
     usort(
         $ary,
         function($a, $b) {
@@ -115,8 +115,8 @@ function list_all_notifications($uid) {
  */
 function notification_seen($uid, $notification) {
     switch($notification->type) {
-        case "like":
-            return like_notification_seen($notification->post->id, $notification->liked_by->id);
+        case "liked":
+            return liked_notification_seen($notification->post->id, $notification->liked_by->id);
         break;
         case "mentioned":
             return mentioned_notification_seen($uid, $notification->post->id);

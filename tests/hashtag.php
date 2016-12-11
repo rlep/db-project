@@ -6,34 +6,34 @@ use \Model\Hashtag;
 
 class HashtagTest extends TestCase
 {
-    protected $pids;
-    protected $uid;
+    protected static $pids;
+    protected static $uid;
 
-    public function setUp()
+    public static function setUpBeforeClass()
     {
-        $this->uid = User\create(
+        self::$uid = User\create(
             "userpost1",
             "User 1",
             "password",
             "user1@mail.com",
             ""
         );
-        $this->pids[] = Post\create($this->uid, "This is a sample text");
-        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag1");               
-        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag1");               
-        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag2");               
-        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag2");               
-        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag2");               
-        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag3");               
-        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag3");               
-        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag3");               
-        $this->pids[] = Post\create($this->uid, "This is a sample text #hashtag3");               
-        $this->pids[] = Post\create($this->uid, "Two hashtags #hash #tag");
+        self::$pids[] = Post\create(self::$uid, "This is a sample text");
+        self::$pids[] = Post\create(self::$uid, "This is a sample text #hashtag1");               
+        self::$pids[] = Post\create(self::$uid, "This is a sample text #hashtag1");               
+        self::$pids[] = Post\create(self::$uid, "This is a sample text #hashtag2");               
+        self::$pids[] = Post\create(self::$uid, "This is a sample text #hashtag2");               
+        self::$pids[] = Post\create(self::$uid, "This is a sample text #hashtag2");               
+        self::$pids[] = Post\create(self::$uid, "This is a sample text #hashtag3");               
+        self::$pids[] = Post\create(self::$uid, "This is a sample text #hashtag3");               
+        self::$pids[] = Post\create(self::$uid, "This is a sample text #hashtag3");               
+        self::$pids[] = Post\create(self::$uid, "This is a sample text #hashtag3");               
+        self::$pids[] = Post\create(self::$uid, "Two hashtags #hash #tag");
     }
 
     public function testAttach()
     {
-        $this->assertTrue(Hashtag\attach($pids[0], "hashtag0"));
+        $this->assertTrue(Hashtag\attach(self::$pids[0], "hashtag0"));
         $this->assertTrue(in_array("hashtag0", Hashtag\list_hashtags()));
     }
 
@@ -48,7 +48,7 @@ class HashtagTest extends TestCase
 
     public function testListPopularHashtags()
     {
-        $l = Hashtag\list_popular_hashtags();
+        $l = Hashtag\list_popular_hashtags(5);
         $this->assertEquals($l[0], "hashtag3");
         $this->assertEquals($l[0], "hashtag2");
         $this->assertEquals($l[0], "hashtag1");
@@ -59,12 +59,12 @@ class HashtagTest extends TestCase
     {
         $p = Hashtag\get_posts("hashtag0");
         $this->assertEquals(count($p), 1);
-        $this->assertEquals($p[0]->id, $pids[0]);
+        $this->assertEquals($p[0]->id, self::$pids[0]);
     }
 
     public function testGetRelatedHashtags()
     {
-        $h = Hashtag\get_related_hashtags("hash");
+        $h = Hashtag\get_related_hashtags("hash", 5);
         $this->assertEquals(count($h), 1);
         $this->assertEquals($h[0], "tag");
     }

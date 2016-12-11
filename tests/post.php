@@ -5,7 +5,7 @@ use \Model\User;
 class PostTest extends TestCase
 {
     protected static $users;
-    public function setUpBeforeClasses()
+    public static function setUpBeforeClass()
     {
         User\create(
             "userpost1",
