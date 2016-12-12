@@ -16,8 +16,7 @@ The goal is to fill out the model functions so that this twitter clone works jus
 * Open a cmd prompt at the root
 * Run `composer install`
 * Your app and test databases must be set with all the tables
-* Edit the `config/db.yaml.example` file and save as `config/db.yaml`:
-  
+* Edit the `config/db.yaml.example` file (replacing the infos with the MySQL connection infos) and save as `config/db.yaml`
 
 You can launch a builtin server by launching `php -S localhost:8888 -t www` or launch the tests with the `tests.bat` script
 
