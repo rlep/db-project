@@ -84,6 +84,12 @@ The function returns either the id of the newly inserted user. If there was a pr
 
 It doesn't check whether the username is already taken or not.
 
+In the functions, you can access to the PDO object by using the following instruction:
+
+\begin{verbatim}
+$db = Db::dbc();
+\end{verbatim}
+
 \subsection{\texttt{get(\$id)}}
 This function gets a post with a given id (the one given in parameter).
 
