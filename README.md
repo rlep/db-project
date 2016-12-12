@@ -30,3 +30,4 @@ The website is available at http://localhost:8888
 * `view/` contains every interface files
 * `controller/` contains every behaviour files
 * `tests/` contains the unit tests suites
+* `instructions/` contains the handsheets pdf and the slides
