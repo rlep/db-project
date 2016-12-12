@@ -6,17 +6,22 @@ The goal is to fill out the model functions so that this twitter clone works jus
 ## Requirements
 * PHP >= 7.0
 * MySQL/MariaDB
-* Composer
+* Composer (http://getcomposer.org)
 * php.exe in PATH (see https://john-dugan.com/add-php-windows-path-variable/)
+* You'll need two MySQL databases (one for tests and one for the app) and MySQL users to connect to the databases
+* No xDebug : in php.ini, comment out the line `zend_extension = "/path/to/php_xdebug.dll"` (adding `;` at the beginning)
 
 ## Bootstrap the project
 * Download the code and unzip it or clone it
 * Open a cmd prompt at the root
 * Run `composer install`
 * Your app and test databases must be set with all the tables
-* Edit the `config/db.yaml.example` file and save as `config/db.yaml`
+* Edit the `config/db.yaml.example` file and save as `config/db.yaml`:
+  
 
-You can launch a builtin server by launching the `server.bat` script or launch the tests with the `tests.bat` script
+You can launch a builtin server by launching `php -S localhost:8888 -t www` or launch the tests with the `tests.bat` script
+
+The website is available at http://localhost:8888
 
 ## Structure
 * `www/` contains the root of the server (pages, css stylesheets and images)
