@@ -4,9 +4,10 @@
 The goal is to fill out the model functions so that this twitter clone works just file
 
 ## Requirements
-* PHP >= 5.5
+* PHP >= 7.0
 * MySQL/MariaDB
 * Composer
+* php.exe in PATH (see https://john-dugan.com/add-php-windows-path-variable/)
 
 ## Bootstrap the project
 * Download the code and unzip it or clone it
