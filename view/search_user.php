@@ -14,7 +14,7 @@ main_template(get_defined_vars(), function($vars) {
             <div class="pure-u-5-6">
                 <div class="pure-g">
                     <?php
-                        foreach($users as $user)
+                        foreach($users as $user) {
                     ?>
                     <div class="block user pure-u-1-3">
                         <div class="inner-block user-head">
@@ -31,6 +31,9 @@ main_template(get_defined_vars(), function($vars) {
                             </div>
                         </div>
                     </div>
+                    <?php
+                        }
+                    ?>
                 </div>
             </div>
         </div>
