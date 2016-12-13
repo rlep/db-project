@@ -1,6 +1,17 @@
 <?php
 namespace Controller\User;
 
+function handle_avatar($filename, $tmpfilename, $username) {
+    $allowed =  array('gif','png' ,'jpg');
+    $ext = \pathinfo($filename, \PATHINFO_EXTENSION);
+    if(!in_array($ext,$allowed) ) {
+        return null;
+    }
+    $newname = 'images/'.$username.'.'.$ext;
+    move_uploaded_file($tmpfilename, $newname);
+    return $newname;
+}
+
 function user_page($username) {
     $user = \Model\User\get_by_username($username);
     if(!$user) {
@@ -108,7 +119,17 @@ function signup($form, $files) {
         header("Location: signup.php");
         return;
     }
-    if(\Model\User\create($username, $name, $password, $email, $files["avatar"] !== '' ? $files["avatar"]["tmp_name"] : '')) {
+    if($files["avatar"]["tmp_name"] !== null) {
+        if (($avatar = handle_avatar($files["avatar"]["name"], $files["avatar"]["tmp_name"], $username)) === null) {
+            \Session\set_error("There was an error during signup : the avatar couldn't be uploaded.");
+            header("Location: signup.php");
+            return;
+        }
+    }
+    else {
+        $avatar = "";
+    }
+    if(\Model\User\create($username, $name, $password, $email, $avatar)) {
         \Session\set_success("Your account has been created. You can log in !");
         header("Location: index.php");
     }
@@ -173,8 +194,13 @@ function update_profile($form, $files) {
             return;
         }
     }
-    if ($files['avatar'] !== '') {
-        if(!\Model\User\change_avatar($u->id, $files['avatar']['tmp_name'])) {
+    if($files["avatar"]["tmp_name"] !== null) {
+        if (($avatar = handle_avatar($files["avatar"]["name"], $files["avatar"]["tmp_name"], $username)) === null) {
+            \Session\set_error("There was an error during signup : the avatar couldn't be uploaded.");
+            header("Location: signup.php");
+            return;
+        }
+        if(!\Model\User\change_avatar($u->id, $avatar)) {
             \Session\set_error("There was an error during profile update : avatar couldn't be changed.");
             header("Location: update_profile.php");
             return;

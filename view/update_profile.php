@@ -9,7 +9,7 @@ main_template(get_defined_vars(), function($vars) {
             </div>
             <div class="pure-u-2-3">
                 <div class="block">
-                    <form class="inner-block pure-form pure-form-aligned" action="update_profile.php" enctype="multipart/form-data">
+                    <form class="inner-block pure-form pure-form-aligned" action="update_profile.php" enctype="multipart/form-data" method="post">
                         <fieldset>
                             <div class="pure-control-group">
                                 <label for="username">Username</label>
