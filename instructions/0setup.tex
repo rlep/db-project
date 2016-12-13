@@ -88,7 +88,12 @@
 \section{Work to do}
 You have to set your system up in order to get a proper development environment.
 
+You must install the environment by following section \ref{sec:installation}.
+
 \section{Installation}
+\label{sec:installation}
+
+Using the virtual machine is recommanded but you can also use a personnal machine (no support will be done). Choose one of the following subsection 
 
 \subsection{On the Virtual Machine}
 \begin{enumerate}
@@ -100,14 +105,20 @@ You have to set your system up in order to get a proper development environment.
 \item Run \texttt{composer install}
 \end{enumerate}
 
+When you are done, you can switch to section \ref{sec:work}.
+
 \subsection{On a personal machine}
 You will need the following elements for the software to work:
 \begin{itemize}
 \item PHP >= 5.6
 \item MySQL/MariaDB
 \item Apache and PhpMyAdmin
-\item Composer (http://getcomposer.org)
-\item php.exe in PATH (see https://john-dugan.com/add-php-windows-path-variable/)
+\item Composer 
+	\begin{itemize}
+		\item for Windows: download and install \url{https://getcomposer.org/Composer-Setup.exe}
+		\item for Linux/MacOS: open a terminal (in \texttt{db-project-master} and run php composer-setup.php)
+	\end{itemize}
+\item For Windows : php.exe in PATH (see https://john-dugan.com/add-php-windows-path-variable/)
 \item No xDebug : in php.ini, comment out the line zend\_extension = "/path/to/php\_xdebug.dll" (adding ; at the beginning)
 \end{itemize}
 
@@ -116,11 +127,18 @@ Once you have got all the requirements fulfilled, you can proceed with the follo
 \begin{enumerate}
 \item Download \url{https://github.com/prafiny/db-project/archive/master.zip}
 \item Unzip the archive somewhere.
-\item Open a cmd prompt (Shift+Right Click on the folder \texttt{db-project-master})
-\item Run \texttt{composer install}
+\item Open a cmd prompt
+\begin{itemize}
+	\item For Windows: Shift+Right Click on the folder \texttt{db-project-master})
+	\item For Linux/MacOS: Open bash (in folder \texttt{db-project-master})
+\end{itemize}
+\item Run \texttt{composer install} (or \texttt{php composer.phar install} if it doesn't work)
 \end{enumerate}
 
+When you are done, you can switch to section \ref{sec:work}.
+
 \section{Get the system to work}
+\label{sec:work}
 \begin{enumerate}
 \item You must have two databases : one for testing and one for the application
 \item You must have the tables you are working on on both databases
