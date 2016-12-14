@@ -8,7 +8,7 @@ The goal is to fill out the model functions so that this twitter clone works jus
 * MySQL/MariaDB
 * Composer (http://getcomposer.org)
 * php.exe in PATH (see https://john-dugan.com/add-php-windows-path-variable/)
-* You'll need two MySQL databases (one for tests and one for the app) with the tables created and MySQL users to connect to the databases
+* You'll need two MySQL databases (one for tests and one for the app) with the tables created and MySQL users to connect to the databases. The software doesn't create neither the databases nor the tables, you will need to create them by hand in an administration tool such as PhpMyAdmin
 * No xDebug : in php.ini, comment out the line `zend_extension = "/path/to/php_xdebug.dll"` (adding `;` at the beginning)
 
 ## Bootstrap the project
