@@ -329,15 +329,29 @@ foreach ($db->query($sql) as $row) {
 $sql = 'SELECT name, colour, calories FROM fruit WHERE calories < :calories AND colour = :colour';
 $sth = $dbh->prepare($sql);
 $sth->execute(array(':calories' => 150, ':colour' => 'red'));
+foreach($sth->fetchAll() as $row) {
+    print $row['name'] . "\t";
+    print $row['color'] . "\t";
+    print $row['calories'] . "\n";
+}
             \end{lstlisting}
-        \pause
-        \item Error handling (with Exceptions)
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{PHP and MySQL : PDO}
+    \begin{itemize}
+\item Error handling (with Exceptions)
             \begin{lstlisting}
 try {
     $sql = 'SELECT name, color, calories FROM fruit ORDER BY name';
-    foreach ($db->query($sql) as $row)
-    { do stuff; }
-} catch (\PDOException $e) { print $e->getMessage(); }
+    foreach ($db->query($sql) as $row){
+        print $row['name'] . "\t";
+        print $row['color'] . "\t";
+        print $row['calories'] . "\n";
+	}
+} catch (\PDOException $e) {
+	print $e->getMessage();
+}
             \end{lstlisting}
     \end{itemize}
 \end{frame}
