@@ -114,7 +114,7 @@ class UserTest extends TestCase
 
         $this->assertNull(User\get_by_username("nothing called like it"));
         return $users;
-    }
+    } 
 
     /**
      * @depends testGetByUsername
