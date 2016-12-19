@@ -20,14 +20,16 @@ function get($id) {
         return null;
     }
     else{
+        foreach ($result as $row ) {
         return (object) array(
         "id" => $id,
-        "username" => $result["username"],
-        "name" => $result["name"],
-        "password" => $result["password"],
-        "email" => $result["email"],
-        "avatar" => $result["avatar"] 
+        "username" => $$row["username"],
+        "name" => $$row["name"],
+        "password" => $$row["password"],
+        "email" => $$row["email"],
+        "avatar" => $$row["avatar"] 
         );
+        }
     }
 }
 
@@ -44,8 +46,13 @@ function get($id) {
  */
 function create($username, $name, $password, $email, $avatar_path) {
     $db = \Db::dbc();
-    $result = $db->query("INSERT INTO User (username,name,password,email,avatar) Values('".$username."'".$name."'".hash_password($password)."'".$email."'".$avatar_path."')");
-    
+    $result = $db->query("INSERT INTO User (username,name,password,email,avatar) Values('".$username."','".$name."','".hash_password($password)."','".$email."','".$avatar_path."')");
+    if(!$result){
+        return null;
+    }
+    else {
+        return $db->lastInsertId();
+    }
 }
 
 /**
@@ -58,7 +65,16 @@ function create($username, $name, $password, $email, $avatar_path) {
  * @warning this function doesn't check whether a user with a similar username exists
  */
 function modify($uid, $username, $name, $email) {
-    return false;
+    $user = get($uid);
+    if(!$user){
+        $user["username"] = $username;
+        $user["name"]= $name;
+        $user["email"]=$email;
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 /**
@@ -69,7 +85,14 @@ function modify($uid, $username, $name, $email) {
  * @warning this function hashes the password
  */
 function change_password($uid, $new_password) {
-    return false;
+    $user = get($uid);
+    if(!$user){
+        $user["password"]=hash_password($new_password);
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 /**
@@ -79,7 +102,14 @@ function change_password($uid, $new_password) {
  * @return true if everything went fine, false else
  */
 function change_avatar($uid, $avatar_path) {
-    return false;
+    $user = get($uid);
+    if(!$user){
+        $user["avatar"]=$avatar_path;
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 /**
@@ -88,7 +118,9 @@ function change_avatar($uid, $avatar_path) {
  * @return true if the user has been correctly deleted, false else
  */
 function destroy($id) {
-    return false;
+    $db = \Db::dbc();
+    $result = $db->query("DELETE FROM User where User.id=".$id."");
+    return $result;
 }
 
 /**
@@ -106,7 +138,9 @@ function hash_password($password) {
  * @return an array of find objects
  */
 function search($string) {
-    return [get(1)];
+    $db = \Db::dbc();
+    $result = $db->query("SELECT * FROM User where User.name LIKE'".$string."' or User.username LIKE '".$string."'");
+    return $result;
 }
 
 /**
@@ -114,7 +148,9 @@ function search($string) {
  * @return an array of the objects of every users
  */
 function list_all() {
-    return [get(1)];
+    $db = \Db::dbc();
+    $result = $db->query("SELECT * FROM User");
+    return $result;
 }
 
 /**
@@ -123,7 +159,24 @@ function list_all() {
  * @return the user object or null if the user doesn't exist
  */
 function get_by_username($username) {
-    return get(1);
+    $db = \Db::dbc();
+    $result = $db->query("SELECT * from User WHERE User.username='".$username."'");
+    if(!$result){
+        return null;
+    }
+    else{
+        foreach ($result as $row) {
+            $user = array(
+            "id" => $row["id"],
+            "username" => $row["username"],
+            "name" => $row["name"],
+            "password" => $row["password"],
+            "email" => $row["email"],
+            "avatar" => $row["avatar"] 
+            );    
+        }
+        return $user;
+    }
 }
 
 /**
@@ -132,7 +185,18 @@ function get_by_username($username) {
  * @return a list of users objects
  */
 function get_followers($uid) {
-    return [get(2)];
+    $db = \Db::dbc();
+    $result = $db->query("SELECT follower from Following WHERE Following.followed=".$uid."");
+    if(!$result){
+        return null;
+    }
+    else{
+        $followers = array();
+        foreach($result as $row){
+            $followers[]= get($row["follower"]);
+        }
+        return $followers;
+    }
 }
 
 /**
@@ -141,7 +205,18 @@ function get_followers($uid) {
  * @return a list of users objects
  */
 function get_followings($uid) {
-    return [get(2)];
+    $db = \Db::dbc();
+    $result = $db->query("SELECT followed from Following WHERE Following.follower=".$uid."");
+    if(!$result){
+        return null;
+    }
+    else{
+        $followeds = array();
+        foreach($result as $row){
+            $followeds[]= get($row["followed"]);
+        }
+        return $followeds;
+    }
 }
 
 /**
@@ -165,7 +240,18 @@ function get_stats($uid) {
  * @warning this function must perform the password hashing   
  */
 function check_auth($username, $password) {
-    return null;
+    $user = get_by_username($username);
+    if (!$user){
+        return null;
+    }
+    else{    
+        if (hash_password($password)==$user["password"]){
+            return $user;
+        }
+        else {
+            return null;
+        }
+    }
 }
 
 /**
@@ -175,8 +261,18 @@ function check_auth($username, $password) {
  * @return the user object or null if authentification failed
  */
 function check_auth_id($id, $password) {
-    return null;
-}
+    $user = get($id);
+    if (!$user){
+        return null;
+    }
+    else{    
+        if (hash_password($password)==$user["password"]){
+            return $user;
+        }
+        else {
+            return null;
+        }
+    }}
 
 /**
  * Follow another user
@@ -185,7 +281,9 @@ function check_auth_id($id, $password) {
  * @return true if the user has been followed, false else
  */
 function follow($id, $id_to_follow) {
-    return false;
+    $db = \Db::dbc();
+    $result = $db->query("INSERT INTO Following (follower,followed) Values(".$id.",".$id_to_follow.")");
+    return $result;
 }
 
 /**
@@ -195,6 +293,8 @@ function follow($id, $id_to_follow) {
  * @return true if the user has been unfollowed, false else
  */
 function unfollow($id, $id_to_unfollow) {
-    return false;
+    $db = \Db::dbc();
+    $result = $db->query("DELETE FROM Following WHERE Following.follower=".$id." and Following.followed=".$id_to_unfollow."");
+    return $result;
 }
 
