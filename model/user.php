@@ -14,14 +14,21 @@ use \PDOException;
  * @return an object containing the attributes of the user or null if error or the user doesn't exist
  */
 function get($id) {
-    return (object) array(
-        "id" => 1337,
-        "username" => "yrlgtm",
-        "name" => "User 1",
-        "password" => "hashed",
-        "email" => "yrlgtm@gmail.com",
-        "avatar" => "" 
-    );
+    $db = \Db::dbc();
+    $result = $db->query("SELECT * from User WHERE User.id=".$id."");
+    if(!$result){
+        return null;
+    }
+    else{
+        return (object) array(
+        "id" => $id,
+        "username" => $result["username"],
+        "name" => $result["name"],
+        "password" => $result["password"],
+        "email" => $result["email"],
+        "avatar" => $result["avatar"] 
+        );
+    }
 }
 
 /**
@@ -36,7 +43,9 @@ function get($id) {
  * @warning this function hashes the password
  */
 function create($username, $name, $password, $email, $avatar_path) {
-    return 1337;
+    $db = \Db::dbc();
+    $result = $db->query("INSERT INTO User (username,name,password,email,avatar) Values('".$username."'".$name."'".hash_password($password)."'".$email."'".$avatar_path."')");
+    
 }
 
 /**
@@ -88,7 +97,7 @@ function destroy($id) {
  * @return the hashed password
  */
 function hash_password($password) {
-    return $password;
+    return hash('sha512', $password);
 }
 
 /**
