@@ -16,12 +16,22 @@ use \PDOException;
  * @warning the date attribute is a DateTime object
  */
 function get($id) {
-    return (object) array(
-        "id" => 1337,
-        "text" => "Text",
-        "date" => new \DateTime('2011-01-01T15:03:01'),
-        "author" => \Model\User\get(2)
-    );
+    $db = \Db::dbc();
+    $result = $db->query("SELECT * from Post WHERE Post.id=".$id."");
+    if(!$result){
+        return null;
+    }
+    else{
+        foreach ($result as $row ) {
+        $post =  (object) array(
+        "id" => $row["id"],
+        "text" => $row["text"],
+        "date" => new DateTime('2011-01-01T15:03:01'),
+        "author" => $row["author"]
+        );
+        }
+        return $post;
+    }
 }
 
 /**

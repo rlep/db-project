@@ -274,18 +274,19 @@ function get_stats($uid) {
  * @warning this function must perform the password hashing   
  */
 function check_auth($username, $password) {
-    (object) $user = get_by_username($username);
-    if (!$user){
-        return null;
-    }
-    else{    
-        if (hash_password($password)==$user->password){
-            return $user;
-        }
-        else {
-            return null;
-        }
-    }
+    $db = \Db::dbc();
+    $password_new = hash_password($password);
+    $info = $db->prepare('SELECT * FROM User WHERE username = :username AND password = :password');
+    $info->execute(array( ':username' => $username, ':password' => $password_new));
+    $data=$info->fetch();
+    return (object) (array(
+                            "id" => $data["id"],
+                            "username" => $username,
+                            "name" =>  $data['name'],
+                            "password" =>  $data['password'],
+                            "email" =>  $data['email'],
+                            "avatar" =>  $data['avatar'], 
+    ));
 }
 
 /**
@@ -306,7 +307,8 @@ function check_auth_id($id, $password) {
         else {
             return null;
         }
-    }}
+    }   
+}
 
 /**
  * Follow another user
