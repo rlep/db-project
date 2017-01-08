@@ -21,14 +21,14 @@ function get($id) {
     }
     else{
         foreach ($result as $row ) {
-        $user =  (object) array(
-        "id" => $id,
-        "username" => $row["username"],
-        "name" => $row["name"],
-        "password" => $row["password"],
-        "email" => $row["email"],
-        "avatar" => $row["avatar"] 
-        );
+            $user =  (object) array(
+            "id" => $id,
+            "username" => $row["username"],
+            "name" => $row["name"],
+            "password" => $row["password"],
+            "email" => $row["email"],
+            "avatar" => $row["avatar"] 
+            );
         }
         return $user;
     }
@@ -344,3 +344,4 @@ function unfollow($id, $id_to_unfollow) {
     }
 }
 
+?>

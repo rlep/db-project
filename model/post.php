@@ -2,6 +2,7 @@
 namespace Model\Post;
 use \Db;
 use \PDOException;
+include 'user.php';
 /**
  * Post
  *
@@ -22,15 +23,31 @@ function get($id) {
         return null;
     }
     else{
-        foreach ($result as $row ) {
-        $post =  (object) array(
-        "id" => $row["id"],
-        "text" => $row["text"],
-        "date" => new DateTime('2011-01-01T15:03:01'),
-        "author" => $row["author"]
-        );
+        foreach ($result as $row) {
+            $result2 = $db->query("SELECT * from User WHERE User.id=".$row["author_id"]."");
+            if(!$result2){
+                return null;
+            }
+            else{
+                foreach ($result2 as $row2 ) {
+                    $user =  (object) array(
+                    "id" => $id,
+                    "username" => $row2["username"],
+                    "name" => $row2["name"],
+                    "password" => $row2["password"],
+                    "email" => $row2["email"],
+                    "avatar" => $row2["avatar"] 
+                    );
+                }
+            }
+            $post =  (object) array(
+            "id" => $id,
+            "text" => $row["post_text"],
+            "date" => $row["post_date"],
+            "author" => $user
+            );
+            return $post;
         }
-        return $post;
     }
 }
 
@@ -56,7 +73,8 @@ function get_with_joins($id) {
     else{
         foreach ($result as $row ) {
         $likes[] =  (object) array(
-            User.get($row["user_id"]);
+            User.get($row["user_id"])
+            );
         }
     }
 
@@ -79,7 +97,8 @@ function get_with_joins($id) {
     else{
         foreach ($result as $row ) {
         $responds_to =  (object) array(
-            get($row["post_init_id"]);
+            get($row["post_init_id"])
+            );
         }
     }
 
@@ -105,20 +124,19 @@ function get_with_joins($id) {
  */
 function create($author_id, $text, $response_to=null) {
     $db = \Db::dbc();
-    $result = $db->query("INSERT INTO Post (post_text,post_date,author) Values('".$text."','".date("Y-m-d H:i:s")."','".$author_id."')");
+    $result = $db->query("INSERT INTO Post(post_text,post_date,author_id) Values('".$text."','".date('Y-m-d H:i:s')."','".$author_id."')");
     if(!$result){
         return null;
     }
     else {
-        $db->lastInsertId();
-    }
-    if ($response_to!=null){
-        $result = $db->query("INSERT INTO Respond (post_init_id,response_id) Values('".$db."','".$response_to."')");
-        if(!$result){
-            return null;
+        if ($response_to!=null){
+            $result2 = $db->query("INSERT INTO Respond(post_init_id,response_id) Values('".$db->lastInsertId()."','".$response_to."')");
+            if(!$result2){
+                return null;
+            }
         }
+        return $db->lastInsertId();
     }
-    return $db;
 }
 
 /**
@@ -179,7 +197,8 @@ function get_mentioned($pid) {
     else{
         foreach ($result as $row ) {
         $mentionned[] =  (object) array(
-            User.get(row["user_id"]);
+            User.get(row["user_id"])
+            );
         }
     }
     return $mentionned;
@@ -216,8 +235,8 @@ function search($string) {
         foreach ($result as $row ) {
         $post =  (object) array(
         "id" => $row["id"],
-        "text" => $row["text"],
-        "date" => new DateTime('2011-01-01T15:03:01'),
+        "post_text" => $row["post_text"],
+        "post_date" => new DateTime('2011-01-01T15:03:01'),
         "author" => $row["author"]
         );
         }
@@ -234,24 +253,24 @@ function search($string) {
 function list_all($date_sorted=false) {
     $db = \Db::dbc();
     if ($date_sorted!="ASC"){
-        $result = $db->query("SELECT * from Post ORDER BY Post.date ASC");
+        $result = $db->query("SELECT * from Post ORDER BY Post.post_date ASC");
     }
     else {
-        $result = $db->query("SELECT * from Post ORDER BY Post.date DESC");
+        $result = $db->query("SELECT * from Post ORDER BY Post.post_date DESC");
     }
     if(!$result){
         return null;
     }
     else{
         foreach ($result as $row ) {
-        $post =  (object) array(
-        "id" => $row["id"],
-        "text" => $row["text"],
-        "date" => new DateTime('2011-01-01T15:03:01'),
-        "author" => $row["author"]
-        );
+            $post =  (object) array(
+            "id" => $row["id"],
+            "post_text" => $row["post_text"],
+            "post_date" => new DateTime('2011-01-01T15:03:01'),
+            "author" => $row["author"]
+            );
+            return $post;
         }
-        return $post;
     }
 }
 
@@ -271,8 +290,8 @@ function list_user_posts($id, $date_sorted="DESC") {
         foreach ($result as $row ) {
         $posts[] =  (object) array(
         "id" => $row["id"],
-        "text" => $row["text"],
-        "date" => new DateTime('2011-01-01T15:03:01'),
+        "post_text" => $row["post_text"],
+        "post_date" => new DateTime('2011-01-01T15:03:01'),
         "author" => $row["author"]
         );
         }
@@ -294,7 +313,8 @@ function get_likes($pid) {
     else{
         foreach ($result as $row ) {
         $liker[] =  (object) array(
-            User.get(row["user_id"]);
+            User.get(row["user_id"])
+         );
         }
         return $liker;
     }
@@ -344,6 +364,7 @@ function get_stats($pid) {
     else{
         foreach ($result as $row ) {
         $nb_likes = $row["nb_like"];
+        }
     }
 
     return (object) array(
@@ -381,8 +402,7 @@ function unlike($uid, $pid) {
     if(!$result){
         return false;
     }
-    else {
+    else{
         return true;
     }
 }
-
