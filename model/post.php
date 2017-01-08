@@ -178,7 +178,7 @@ function get_mentioned($pid) {
     }
     else{
         foreach ($result as $row ) {
-        $mentionned =  (object) array(
+        $mentionned[] =  (object) array(
             User.get(row["user_id"]);
         }
     }
@@ -207,7 +207,22 @@ function destroy($id) {
  * @return an array of find objects
  */
 function search($string) {
-    return [get(1)];
+    $db = \Db::dbc();
+    $result = $db->query("SELECT * from Post WHERE Post.post_text LIKE".$string."");
+    if(!$result){
+        return null;
+    }
+    else{
+        foreach ($result as $row ) {
+        $post =  (object) array(
+        "id" => $row["id"],
+        "text" => $row["text"],
+        "date" => new DateTime('2011-01-01T15:03:01'),
+        "author" => $row["author"]
+        );
+        }
+        return $post;
+    }
 }
 
 /**
@@ -217,7 +232,27 @@ function search($string) {
  * @warning this function does not return the passwords
  */
 function list_all($date_sorted=false) {
-    return [get(1),get(1),get(1),get(1),get(1),get(1)];
+    $db = \Db::dbc();
+    if ($date_sorted!="ASC"){
+        $result = $db->query("SELECT * from Post ORDER BY Post.date ASC");
+    }
+    else {
+        $result = $db->query("SELECT * from Post ORDER BY Post.date DESC");
+    }
+    if(!$result){
+        return null;
+    }
+    else{
+        foreach ($result as $row ) {
+        $post =  (object) array(
+        "id" => $row["id"],
+        "text" => $row["text"],
+        "date" => new DateTime('2011-01-01T15:03:01'),
+        "author" => $row["author"]
+        );
+        }
+        return $post;
+    }
 }
 
 /**
@@ -227,7 +262,22 @@ function list_all($date_sorted=false) {
  * @return the list of posts objects
  */
 function list_user_posts($id, $date_sorted="DESC") {
-    return [get(1)];
+    $db = \Db::dbc();
+    $result = $db->query("SELECT * from Post WHERE Post.author =".$id."");
+    if(!$result){
+        return null;
+    }
+    else{
+        foreach ($result as $row ) {
+        $posts[] =  (object) array(
+        "id" => $row["id"],
+        "text" => $row["text"],
+        "date" => new DateTime('2011-01-01T15:03:01'),
+        "author" => $row["author"]
+        );
+        }
+        return $posts;
+    }
 }
 
 /**
@@ -236,7 +286,18 @@ function list_user_posts($id, $date_sorted="DESC") {
  * @return the users objects who liked the post
  */
 function get_likes($pid) {
-    return [\Model\User\get(2)];
+    $db = \Db::dbc();
+    $result = $db->query("SELECT * from Liked WHERE Liked.post_id =".$pid."");
+    if(!$result){
+        return null;
+    }
+    else{
+        foreach ($result as $row ) {
+        $liker[] =  (object) array(
+            User.get(row["user_id"]);
+        }
+        return $liker;
+    }
 }
 
 /**
@@ -245,16 +306,49 @@ function get_likes($pid) {
  * @return the posts objects which are a response to the actual post
  */
 function get_responses($pid) {
-    return [get(2)];
+    $db = \Db::dbc();
+    $result = $db->query("SELECT * from Respond WHERE Respond.post_init_id =".$pid."");
+    if(!$result){
+        return null;
+    }
+    else{
+        foreach ($result as $row ) {
+            $responses[] = get(row["response_id"]);
+        }
+        return $responses;
+    }
 }
 
 /**
  * Get stats from a post (number of responses and number of likes
  */
 function get_stats($pid) {
+    // get responses
+    $db = \Db::dbc();
+    $result = $db->query("SELECT COUNT(*) as nb_rep from Respond WHERE Respond.post_init_id =".$pid."");
+    if(!$result){
+        $nb_responses = 0;
+    }
+    else{
+        foreach ($result as $row ) {
+            $nb_responses[] = $row["nb_rep"];
+        }
+    }
+
+    // get likes
+    $db = \Db::dbc();
+    $result = $db->query("SELECT COUNT(*) as nb_like from Liked WHERE Liked.post_id =".$pid."");
+    if(!$result){
+        $nb_likes = 0;
+    }
+    else{
+        foreach ($result as $row ) {
+        $nb_likes = $row["nb_like"];
+    }
+
     return (object) array(
-        "nb_likes" => 10,
-        "nb_responses" => 40
+        "nb_likes" => $nb_likes,
+        "nb_responses" => $nb_responses
     );
 }
 
@@ -265,7 +359,14 @@ function get_stats($pid) {
  * @return true if the post has been liked, false else
  */
 function like($uid, $pid) {
-    return false;
+    $db = \Db::dbc();
+    $result = $db->query("INSERT INTO Liked (user_id,post_id) Values (".$uid.",".$pid.")");
+    if(!$result){
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
 /**
@@ -275,6 +376,13 @@ function like($uid, $pid) {
  * @return true if the post has been unliked, false else
  */
 function unlike($uid, $pid) {
-    return false;
+    $db = \Db::dbc();
+    $result = $db->query("DELETE FROM Liked WHERE Liked.user_id=".$uid." and Liked.post_id=".$pid."");
+    if(!$result){
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
