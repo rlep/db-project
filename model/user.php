@@ -352,7 +352,6 @@ function unfollow($id, $id_to_unfollow) {
  */
 function like($id, $id_to_like) {
     $db = \Db::dbc();
-    echo("INSERT INTO Liked (user_id,post_id) Values (".$id.",".$id_to_like.")");
     $result = $db->query("INSERT INTO Liked (user_id,post_id) Values (".$id.",".$id_to_like.")");
     if(!$result){
         return false;
@@ -362,4 +361,19 @@ function like($id, $id_to_like) {
     }
 }
 
-?>
+/**
+ * Unlike a user
+ * @param id the current user's id
+ * @param id_to_unlike the post's id to unlike
+ * @return true if the user has been unliked, false else
+ */
+function unlike($id, $id_to_unlike) {
+    $db = \Db::dbc();
+    $result = $db->query("DELETE FROM Liked WHERE Liked.user_id=".$id." and Liked.post_id=".$id_to_unlike."");
+    if(!$result){
+        return false;
+    }
+    else {
+        return true;
+    }
+}

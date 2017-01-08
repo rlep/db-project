@@ -46,6 +46,7 @@ class PostTest extends TestCase
         $post = Post\get_with_joins($new_pid);
         $this->assertTrue($post->responds_to == Post\get($pid));
         $this->assertTrue(Post\get_responses($pid)[0] == Post\get($new_pid));
+        return $pid;
     }
 
     /**
@@ -80,8 +81,8 @@ class PostTest extends TestCase
      */
     public function testSearch()
     {
-        $pid1 = Post\create($users[0]->id, "this is a searchid1 test");
-        $pid2 = Post\create($users[1]->id, "this searchid2 is a test");
+        $pid1 = Post\create(self::$users[0]->id, "this is a searchid1 test");
+        $pid2 = Post\create(self::$users[1]->id, "this searchid2 is a test");
         $s = Post\search("searchid1");
         $this->assertEquals(count($s), 1);
         $this->assertEquals($s[0]->id, $pid1);
@@ -99,10 +100,12 @@ class PostTest extends TestCase
         {
             Post\destroy($post->id);
         }
-        $pid1 = Post\create($users[0]->id, "this is a searchid1 test");
-        $pid2 = Post\create($users[1]->id, "this is a searchid2 test");
+        $pid1 = Post\create(self::$users[0]->id, "this is a searchid1 test");
+        $pid2 = Post\create(self::$users[1]->id, "this is a searchid2 test");
+        var_dump($pid2);
         $this->assertTrue(Post\destroy($pid1));
         $posts = Post\list_all();
+        var_dump($posts);
         $this->assertEquals(count($posts), 1);
         $this->assertEquals($posts[0]->id, $pid2);
     }
@@ -116,8 +119,8 @@ class PostTest extends TestCase
         {
             Post\destroy($post->id);
         }
-        $pid1 = Post\create($users[0]->id, "this is a searchid1 test");
-        $pid2 = Post\create($users[1]->id, "this is a searchid2 test");
+        $pid1 = Post\create(self::$users[0]->id, "this is a searchid1 test");
+        $pid2 = Post\create(self::$users[1]->id, "this is a searchid2 test");
         $posts = Post\list_all("DESC");
         $this->assertEquals($posts[0]->id, $pid2);
         $this->assertEquals($posts[1]->id, $pid1);
