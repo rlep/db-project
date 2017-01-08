@@ -344,4 +344,22 @@ function unfollow($id, $id_to_unfollow) {
     }
 }
 
+/**
+ * Like a post
+ * @param id the current user's id
+ * @param id_to_like the post's id to like
+ * @return true if the post has been liked, false else
+ */
+function like($id, $id_to_like) {
+    $db = \Db::dbc();
+    echo("INSERT INTO Liked (user_id,post_id) Values (".$id.",".$id_to_like.")");
+    $result = $db->query("INSERT INTO Liked (user_id,post_id) Values (".$id.",".$id_to_like.")");
+    if(!$result){
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
 ?>

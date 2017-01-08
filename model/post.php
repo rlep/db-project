@@ -64,49 +64,49 @@ function get($id) {
 function get_with_joins($id) {
     $db = \Db::dbc();
     $post= get($id);
-    
+    static $likes;
+    static $hashtags;
+    static $responds_to;
+
     // get likes of a Post
     $result = $db -> query("SELECT * FROM Liked WHERE post_id=".$id."");
     if(!$result){
-        return null;
+        $likes = null;
     }
     else{
         foreach ($result as $row ) {
-        $likes[] =  (object) array(
-            User.get($row["user_id"])
-            );
+            $likes[] =  (object) array(User.get($row["user_id"]));
         }
     }
 
     // get hashtags of a Post
-    $result = $db -> query("SELECT hashtag_text FROM Hashtag NATURAL JOIN Hashtag_with_post WHERE post_id=".$id."");
-    if(!$result){
-        return null;
+    $result2 = $db -> query("SELECT hashtag_text FROM Hashtag NATURAL JOIN Hashtag_with_post WHERE post_id=".$id."");
+    if(!$result2){
+        $hashtags = null;
     }
     else{
-        foreach ($result as $row ) {
-        $hashtags[] = $row["hashtag_text"];
+        foreach ($result2 as $row2 ) {
+            $hashtags[] = $row2["hashtag_text"];
         }
     }
 
     //get responds_to on the Post
-    $result = $db -> query("SELECT * FROM Respond WHERE response_id=".$id."");
-    if(!$result){
+    $result3 = $db -> query("SELECT * FROM Respond WHERE response_id =".$id."");
+    if(!$result3){
         $responds_to = null;
     }
     else{
-        foreach ($result as $row ) {
-        $responds_to =  (object) array(
-            get($row["post_init_id"])
-            );
+        foreach ($result3 as $row3 ) {
+            $responds_to = get($row3["post_init_id"]);
         }
+        
     }
 
     return (object) array(
         $post,
-        $likes,
-        $hashtags,
-        $responds_to
+        "likes" => $likes,
+        "hashtags" => $hashtags,
+        "responds_to" => $responds_to
     );
 }
  
@@ -129,13 +129,33 @@ function create($author_id, $text, $response_to=null) {
         return null;
     }
     else {
+        // add hashtags
+        $hashtags = extract_hashtags($text);
+        if ($hastags!=[]){
+            foreach ($hastags as $row ) {
+                
+            }
+        }
+
+        // add mentions
+        $mentions = extract_mentions($text);
+        if ($mentions!=[]){
+            foreach ($mentions as $row ) {
+                
+            }
+        }
+
+
+
+
+        $indice = $db->lastInsertId();
         if ($response_to!=null){
-            $result2 = $db->query("INSERT INTO Respond(post_init_id,response_id) Values('".$db->lastInsertId()."','".$response_to."')");
+            $result2 = $db->query("INSERT INTO Respond(response_id,post_init_id) Values('".$indice."','".$response_to."')");
             if(!$result2){
                 return null;
             }
         }
-        return $db->lastInsertId();
+        return $indice;
     }
 }
 
@@ -190,18 +210,19 @@ function mention_user($pid, $uid) {
  * @return the array of user objects mentioned
  */
 function get_mentioned($pid) {
+    $db = \Db::dbc();
     $result = $db -> query("SELECT * FROM Mentionned WHERE post_id=".$pid."");
     if(!$result){
-        $mentionned = null;
+        return null;
     }
     else{
+        $mentioned =[];
         foreach ($result as $row ) {
-        $mentionned[] =  (object) array(
-            User.get(row["user_id"])
-            );
+            $mentioned[] =  User.get(row["user_id"]);
         }
+        return $mentioned;
     }
-    return $mentionned;
+    
 }
 
 /**
@@ -333,7 +354,7 @@ function get_responses($pid) {
     }
     else{
         foreach ($result as $row ) {
-            $responses[] = get(row["response_id"]);
+            $responses[] = get($row["response_id"]);
         }
         return $responses;
     }

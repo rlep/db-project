@@ -15,7 +15,20 @@ use \PDOException;
  * @return true or false (if something went wrong)
  */
 function attach($pid, $hashtag_name) {
-    return false;
+    $db = \Db::dbc();
+    $result_hashtag = $db->query("INSERT INTO Hashtag (hashtag_text) Values('".$hashtag_name."')");
+    if(!$result_hashtag){
+        return null;
+    }
+    else {
+        $result_hashtag_post = $db->query("INSERT INTO Hashtag_with_post (post_id,hashtag_id) Values('".$pid."','".$db->lastInsertId()."')");
+	    if(!$result_hashtag_post){
+	        return null;
+	    }
+	    else {
+	        return $db->lastInsertId();
+	    }
+    }
 }
 
 /**
@@ -23,7 +36,17 @@ function attach($pid, $hashtag_name) {
  * @return a list of hashtags names
  */
 function list_hashtags() {
-    return ["Test"];
+    $db = \Db::dbc();
+    $result = $db->query("SELECT * FROM Hashtag");
+    if(!$result){
+        return null;
+    }
+    else {
+        foreach ($result as $row ) {
+        $hashtags[] =  $row["hashtag_text"];
+        }
+        return $hashtags;
+    }
 }
 
 /**
