@@ -45,14 +45,49 @@ function get($id) {
  * @warning the responds_to attribute is either null (if the post is not a response) or a post object
  */
 function get_with_joins($id) {
+    $db = \Db::dbc();
+    $post= get($id);
+    
+    // get likes of a Post
+    $result = $db -> query("SELECT * FROM Liked WHERE post_id=".$id."");
+    if(!$result){
+        return null;
+    }
+    else{
+        foreach ($result as $row ) {
+        $likes[] =  (object) array(
+            User.get($row["user_id"]);
+        }
+    }
+
+    // get hashtags of a Post
+    $result = $db -> query("SELECT hashtag_text FROM Hashtag NATURAL JOIN Hashtag_with_post WHERE post_id=".$id."");
+    if(!$result){
+        return null;
+    }
+    else{
+        foreach ($result as $row ) {
+        $hashtags[] = $row["hashtag_text"];
+        }
+    }
+
+    //get responds_to on the Post
+    $result = $db -> query("SELECT * FROM Respond WHERE response_id=".$id."");
+    if(!$result){
+        $responds_to = null;
+    }
+    else{
+        foreach ($result as $row ) {
+        $responds_to =  (object) array(
+            get($row["post_init_id"]);
+        }
+    }
+
     return (object) array(
-        "id" => 1337,
-        "text" => "Ima writing a post !",
-        "date" => new \DateTime('2011-01-01T15:03:01'),
-        "author" => \Model\User\get(2),
-        "likes" => [],
-        "hashtags" => [],
-        "responds_to" => null
+        $post,
+        $likes,
+        $hashtags,
+        $responds_to
     );
 }
  
@@ -69,7 +104,21 @@ function get_with_joins($id) {
  * @warning this function takes care to rollback if one of the queries comes to fail.
  */
 function create($author_id, $text, $response_to=null) {
-    return 1337;
+    $db = \Db::dbc();
+    $result = $db->query("INSERT INTO Post (post_text,post_date,author) Values('".$text."','".date("Y-m-d H:i:s")."','".$author_id."')");
+    if(!$result){
+        return null;
+    }
+    else {
+        $db->lastInsertId();
+    }
+    if ($response_to!=null){
+        $result = $db->query("INSERT INTO Respond (post_init_id,response_id) Values('".$db."','".$response_to."')");
+        if(!$result){
+            return null;
+        }
+    }
+    return $db;
 }
 
 /**
@@ -107,7 +156,14 @@ function extract_mentions($text) {
  * @return true if everything went ok, false else
  */
 function mention_user($pid, $uid) {
-    return false;
+    $db = \Db::dbc();
+    $result = $db->query("INSERT INTO Mentionned (post_id,user_id) Values('".$pid."','".$uid."')");
+    if(!$result){
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
 /**
@@ -116,7 +172,17 @@ function mention_user($pid, $uid) {
  * @return the array of user objects mentioned
  */
 function get_mentioned($pid) {
-    return [];
+    $result = $db -> query("SELECT * FROM Mentionned WHERE post_id=".$pid."");
+    if(!$result){
+        $mentionned = null;
+    }
+    else{
+        foreach ($result as $row ) {
+        $mentionned =  (object) array(
+            User.get(row["user_id"]);
+        }
+    }
+    return $mentionned;
 }
 
 /**
@@ -125,7 +191,14 @@ function get_mentioned($pid) {
  * @return true if the post has been correctly deleted, false else
  */
 function destroy($id) {
-    return false;
+    $db = \Db::dbc();
+    $result = $db->query("DELETE FROM Post where Post.id=".$id."");
+    if(!$result){
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
 /**
