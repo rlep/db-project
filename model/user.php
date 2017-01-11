@@ -29,8 +29,8 @@ function get($id) {
             "email" => $row["email"],
             "avatar" => $row["avatar"] 
             );
+            return $user;
         }
-        return $user;
     }
 }
 
@@ -151,7 +151,7 @@ function hash_password($password) {
  */
 function search($string) {
     $db = \Db::dbc();
-    $result = $db->query("SELECT * FROM User where User.name LIKE'".$string."' or User.username LIKE '".$string."'");
+    $result = $db->query("SELECT * FROM User where User.name LIKE'%".$string."%' or User.username LIKE '%".$string."%'");
     $users = array();
     foreach ($result as $row) {
         $users[] = (Object) array(
@@ -162,7 +162,7 @@ function search($string) {
         "email" => $row["email"],
         "avatar" => $row["avatar"] 
         );
-        }
+    }
     return $users;
 }
 
@@ -301,7 +301,7 @@ function check_auth_id($id, $password) {
         return null;
     }
     else{    
-        if (hash_password($password)==$user->password){
+        if ($password==$user->password){
             return $user;
         }
         else {
