@@ -83,7 +83,18 @@ function list_popular_hashtags($length) {
  * @return a list of posts objects or null if the hashtag doesn't exist
  */
 function get_posts($hashtag_name) {
-    return [\Model\Post\get(1)];
+    $db = \Db::dbc();
+    $posts = array();
+    $result = $db->query("SELECT post_id FROM `Hashtag` INNER JOIN Hashtag_with_post on id=hashtag_id where hashtag_text='".$hashtag_name."'" );
+    if(!$result){
+        return array();
+    }
+    else {
+        foreach ($result as $row ) {
+                $posts[]= \Model\Post\get($row["post_id"]);
+        }
+        return $posts;
+    }
 }
 
 /** Get related hashtags
@@ -92,5 +103,21 @@ function get_posts($hashtag_name) {
  * @return an array of hashtags names
  */
 function get_related_hashtags($hashtag_name, $length) {
-    return ["Hello"];
+    $db = \Db::dbc();
+    $hashtags = array();
+    $result = $db->query("SELECT hashtag_text from Hashtag inner join Hashtag_with_post on Hashtag.id=hashtag_id inner join Post on Post.id=post_id where Post_id IN( SELECT post_id FROM                 Hashtag inner join Hashtag_with_post on Hashtag.id=hashtag_id inner join Post on Post.id=post_id where (hashtag_text='".$hashtag_name."'))");
+    if(!$result){
+        return array();
+    }
+    else {
+        $cpt = 0;
+        foreach ($result as $row ) {
+            if ($length> $cpt && $row["hashtag_text"]!=$hashtag_name){
+                $hashtags[] =  $row["hashtag_text"];
+                $cpt ++;
+            }
+        }
+        var_dump($hashtags);
+        return $hashtags;
+    }
 }
