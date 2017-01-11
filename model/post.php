@@ -152,13 +152,9 @@ function create($author_id, $text, $response_to=null) {
         // add hashtags
         $postid = $db->lastInsertId();
         $hashtags = extract_hashtags($text);
-        var_dump($hashtags);
         if ($hashtags!=[]){
             foreach ($hashtags as $hashtag ) {
-                    $db->query("INSERT INTO Hashtag(hashtag_text) Values('".$hashtag."')"); 
-                    \Model\Hashtag\attach($postid,$hashtag);
-                    $hashtag_id = $db->lastInsertId();
-                    $db->query("INSERT INTO Hashtag_with_post(post_id,hashtag_id) Values('".$postid."','".$hashtag_id."')");   
+                \Model\Hashtag\attach($postid,$hashtag);
             }
         }
 

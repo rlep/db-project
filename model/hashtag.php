@@ -16,18 +16,21 @@ use \PDOException;
  */
 function attach($pid, $hashtag_name) {
     $db = \Db::dbc();
-    $result_hashtag = $db->query("INSERT INTO Hashtag (hashtag_text) Values('".$hashtag_name."')");
-    if(!$result_hashtag){
+    $checkIfExist = $db->query("SELECT id From Hashtag where hashtag_text ='".$hashtag_name."'");
+    if (!$checkIfExist->fetch()){
+        $db->query("INSERT INTO Hashtag(hashtag_text) Values('".$hashtag_name."')"); 
+        $hashtag_id = $db->lastInsertId();
+    }
+    else {
+        $getHashtag = $db->query("SELECT id From Hashtag where hashtag_text ='".$hashtag_name."'");
+        $hashtag_id = $getHashtag->fetch()["id"];
+    }
+    $result_hashtag_post = $db->query("INSERT INTO Hashtag_with_post (post_id,hashtag_id) Values('".$pid."','".$hashtag_id."')");
+    if(!$result_hashtag_post){
         return false;
     }
     else {
-        $result_hashtag_post = $db->query("INSERT INTO Hashtag_with_post (post_id,hashtag_id) Values('".$pid."','".$db->lastInsertId()."')");
-	    if(!$result_hashtag_post){
-	        return false;
-	    }
-	    else {
-	        return true;
-	    }
+        return true;
     }
 }
 
@@ -46,7 +49,6 @@ function list_hashtags() {
         foreach ($result as $row ) {
             $hashtags[] =  $row["hashtag_text"];
         }
-        var_dump($hashtags);
         return $hashtags;
     }
 }
