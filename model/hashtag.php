@@ -18,15 +18,15 @@ function attach($pid, $hashtag_name) {
     $db = \Db::dbc();
     $result_hashtag = $db->query("INSERT INTO Hashtag (hashtag_text) Values('".$hashtag_name."')");
     if(!$result_hashtag){
-        return null;
+        return false;
     }
     else {
         $result_hashtag_post = $db->query("INSERT INTO Hashtag_with_post (post_id,hashtag_id) Values('".$pid."','".$db->lastInsertId()."')");
 	    if(!$result_hashtag_post){
-	        return null;
+	        return false;
 	    }
 	    else {
-	        return $db->lastInsertId();
+	        return true;
 	    }
     }
 }
@@ -37,14 +37,16 @@ function attach($pid, $hashtag_name) {
  */
 function list_hashtags() {
     $db = \Db::dbc();
+    $hashtags = array();
     $result = $db->query("SELECT * FROM Hashtag");
     if(!$result){
-        return null;
+        return array();
     }
     else {
         foreach ($result as $row ) {
-        $hashtags[] =  $row["hashtag_text"];
+            $hashtags[] =  $row["hashtag_text"];
         }
+        var_dump($hashtags);
         return $hashtags;
     }
 }
