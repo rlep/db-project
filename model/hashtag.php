@@ -59,7 +59,22 @@ function list_hashtags() {
  * @return a list of hashtags
  */
 function list_popular_hashtags($length) {
-    return ["Hallo"];
+    $db = \Db::dbc();
+    $hashtags = array();
+    $result = $db->query("SELECT hashtag_text, count(hashtag_id) as nb FROM `Hashtag_with_post` inner join `Hashtag` on hashtag_id=id group by hashtag_id order by nb desc ");
+    if(!$result){
+        return array();
+    }
+    else {
+        $cpt = 0;
+        foreach ($result as $row ) {
+            if ($length> $cpt){
+                $hashtags[] =  $row["hashtag_text"];
+                $cpt ++;
+            }
+        }
+        return $hashtags;
+    }
 }
 
 /**
