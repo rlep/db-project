@@ -143,14 +143,14 @@ function get_with_joins($id) {
  */
 function create($author_id, $text, $response_to=null) {
     $db = \Db::dbc();
-    $result = $db->query("INSERT INTO Post(post_text,post_date,author_id) Values('".$text."','".date('Y-m-d H:i:s')."','".$author_id."')");
+    $date =  date('Y-m-d H:i:s');
+    $result = $db->query("INSERT INTO Post(post_text,post_date,author_id) Values('".$text."','".$date."','".$author_id."')");
     if(!$result){
         return null;
     }
     else {
         // add hashtags
         $postid = $db->lastInsertId();
-        var_dump($postid);
         $hashtags = extract_hashtags($text);
         if ($hashtags!=[]){
             foreach ($hashtags as $hashtag ) {
@@ -298,6 +298,7 @@ function destroy($id) { //check fk liked, mentionned
  */
 function search($string) {
     $db = \Db::dbc();
+    $post =array();
     $result = $db->query("SELECT * from Post WHERE Post.post_text LIKE '%".$string."%'");
     if(!$result){
         return null;
@@ -323,11 +324,11 @@ function search($string) {
         $post[] =  (object) array(
         "id" => $row["id"],
         "post_text" => $row["post_text"],
-        "post_date" => date('Y-m-d H:i:s'),
+        "post_date" => $row["post_date"],
         "author" => $user
         );
-        return $post;
         }
+        return $post;
     }
 }
 
@@ -339,7 +340,8 @@ function search($string) {
  */
 function list_all($date_sorted=false) {
     $db = \Db::dbc();
-    if ($date_sorted!="ASC"){
+    $post = array();
+    if ($date_sorted=="ASC"){
         $result = $db->query("SELECT * from Post ORDER BY Post.post_date ASC");
     }
     else {
@@ -369,11 +371,11 @@ function list_all($date_sorted=false) {
             $post[] =  (object) array(
             "id" => $row["id"],
             "post_text" => $row["post_text"],
-            "post_date" => date('Y-m-d H:i:s'),
+            "post_date" => $row["post_date"],
             "author" => $user
             );
-            return $post;
         }
+        return $post;
     }
 }
 
@@ -394,7 +396,7 @@ function list_user_posts($id, $date_sorted="DESC") {
         $posts[] =  (object) array(
         "id" => $row["id"],
         "post_text" => $row["post_text"],
-        "post_date" => new DateTime('2011-01-01T15:03:01'),
+        "post_date" => $row["post_date"],
         "author" => $row["author"]
         );
         }
