@@ -220,7 +220,7 @@ function extract_mentions($text) {
  */
 function mention_user($pid, $uid) {
     $db = \Db::dbc();
-    $result = $db->query("INSERT INTO Mentionned (post_id,user_id) Values('".$pid."','".$uid."')");
+    $result = $db->query("INSERT INTO Notification(type,post_id,user_id,notif_date) Values ('mentioned','".$pid."','".$uid."','".date('Y-m-d H:i:s')."')");
     if(!$result){
         return false;
     }
@@ -236,7 +236,7 @@ function mention_user($pid, $uid) {
  */
 function get_mentioned($pid) {
     $db = \Db::dbc();
-    $result = $db->query("SELECT * FROM Mentionned WHERE Mentionned.post_id=".$pid."");
+    $result = $db->query("SELECT * Notification WHERE type='liked' and  post_id=".$pid."");
     if(!$result){
         return [];
     }
@@ -260,8 +260,7 @@ function get_mentioned($pid) {
             }
         }
         return $mentioned;
-    }
-    
+    }    
 }
 
 /**
@@ -271,9 +270,7 @@ function get_mentioned($pid) {
  */
 function destroy($id) { //check fk liked, mentionned
     $db = \Db::dbc();
-    $result = $db->query("DELETE FROM Liked where Liked.post_id=".$id."");
-    $result = $db->query("DELETE FROM Mentionned where Mentionned.post_id=".$id."");
-    $result = $db->query("DELETE FROM Respond where Respond.post_init_id=".$id."");
+    $result = $db->query("DELETE FROM Notification where post_id=".$id."");
     $result = $db->query("DELETE FROM Post where Post.id=".$id."");
     if(!$result){
         return false;
@@ -403,7 +400,7 @@ function list_user_posts($id, $date_sorted="DESC") {
  */
 function get_likes($pid) {
     $db = \Db::dbc();
-    $result = $db->query("SELECT * from Liked WHERE Liked.post_id =".$pid."");
+    $result = $db->query("SELECT * from Notification WHERE type='liked' and post_id =".$pid."");
     if(!$result){
         return null;
     }
@@ -495,7 +492,7 @@ function like($id, $id_to_like) {
  */
 function unlike($uid, $pid) {
     $db = \Db::dbc();
-    $result = $db->query("DELETE FROM Notification WHERE type='liked' and user_id=".$uid." and post=".$pid."");
+    $result = $db->query("DELETE FROM Notification WHERE type='liked' and user_id=".$uid." and post_id=".$pid."");
     if(!$result){
         return false;
     }

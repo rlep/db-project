@@ -20,7 +20,7 @@ use \PDOException;
 function get_liked_notifications($uid) {
     $db = \Db::dbc();
     $notifications=array();
-    $result = $db->query("SELECT * from Notification WHERE type='liked'");
+    $result = $db->query("SELECT * from Notification WHERE type='liked' and user_id!='".$uid."'");
     if(!$result){
         return null;
     }
@@ -45,7 +45,14 @@ function get_liked_notifications($uid) {
  * @return true if everything went ok, false else
  */
 function liked_notification_seen($pid, $uid) {
-    return false;
+    $db = \Db::dbc();
+    $result = $db->query("UPDATE Notification SET reading_date='".date('Y-m-d H:i:s')."' WHERE (type='liked' and post_id='".$pid."' and user_id='".$uid."')");
+    if(!$result){
+        return false;
+    }
+    else{
+        return true;
+    }
 }
 
 /**
@@ -57,13 +64,26 @@ function liked_notification_seen($pid, $uid) {
  * @warning the reading_date object is either a DateTime object or null (if it hasn't been read)
  */
 function get_mentioned_notifications($uid) {
-    return [(object) array(
+    $db = \Db::dbc();
+    $notifications=array();
+    $result = $db->query("SELECT * from Notification WHERE type='mentioned'");
+    if(!$result){
+        return null;
+    }
+    else{
+        foreach ($result as $row ) {
+        $post = \Model\Post\get($row["post_id"]);
+        $author = $post->author;    
+        $notifications[] =  (object) array(
         "type" => "mentioned",
-        "post" => \Model\Post\get(1),
-        "mentioned_by" => \Model\User\get(3),
-        "date" => new \DateTime("NOW"),
-        "reading_date" => null
-    )];
+        "post" => $post,
+        "mentioned_by" => $author,
+        "date" => $row["notif_date"],
+        "reading_date" => $row["reading_date"]
+        );
+        }
+        return $notifications;
+    }
 }
 
 /**
@@ -73,7 +93,14 @@ function get_mentioned_notifications($uid) {
  * @return true if everything went ok, false else
  */
 function mentioned_notification_seen($uid, $pid) {
-    return false;
+    $db = \Db::dbc();
+    $result = $db->query("UPDATE Notification SET reading_date='".date('Y-m-d H:i:s')."' WHERE (type='mentioned' and post_id='".$pid."' and user_id='".$uid."')");
+    if(!$result){
+        return false;
+    }
+    else{
+        return true;
+    }
 }
 
 /**
@@ -84,12 +111,24 @@ function mentioned_notification_seen($uid, $pid) {
  * @warning the reading_date object is either a DateTime object or null (if it hasn't been read)
  */
 function get_followed_notifications($uid) {
-    return [(object) array(
+    $db = \Db::dbc();
+    $notifications=array();
+    $result = $db->query("SELECT * from Notification WHERE type='followed'");
+    if(!$result){
+        return null;
+    }
+    else{
+        foreach ($result as $row ) {
+        $notifications[] =  (object) array(
         "type" => "followed",
-        "user" => \Model\User\get(1),
-        "date" => new \DateTime("NOW"),
-        "reading_date" => new \DateTime("NOW")
-    )];
+        "post" => \Model\Post\get($row["post_id"]),
+        "followed_by" => \Model\User\get($row["user_id"]),
+        "date" => $row["notif_date"],
+        "reading_date" => $row["reading_date"]
+        );
+        }
+        return $notifications;
+    }
 }
 
 /**
@@ -99,8 +138,14 @@ function get_followed_notifications($uid) {
  * @return true if everything went ok, false else
  */
 function followed_notification_seen($followed_id, $follower_id) {
-    return false;
-}
+    $db = \Db::dbc();
+    $result = $db->query("UPDATE Notification SET reading_date='".date('Y-m-d H:i:s')."' WHERE (type='followed' and post_id='".$pid."' and user_id='".$uid."')");
+    if(!$result){
+        return false;
+    }
+    else{
+        return true;
+    }}
 
 /**
  * Get all the notifications sorted by time (descending order)
