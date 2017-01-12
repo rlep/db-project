@@ -18,13 +18,24 @@ use \PDOException;
  * @warning the reading_date attribute is either a DateTime object or null (if it hasn't been read)
  */
 function get_liked_notifications($uid) {
-    return [(object) array(
+    $db = \Db::dbc();
+    $notifications=array();
+    $result = $db->query("SELECT * from Notification WHERE type='liked'");
+    if(!$result){
+        return null;
+    }
+    else{
+        foreach ($result as $row ) {
+        $notifications[] =  (object) array(
         "type" => "liked",
-        "post" => \Model\Post\get(1),
-        "liked_by" => \Model\User\get(3),
-        "date" => new \DateTime("NOW"),
-        "reading_date" => new \DateTime("NOW")
-    )];
+        "post" => \Model\Post\get($row["post_id"]),
+        "liked_by" => \Model\User\get($row["user_id"]),
+        "date" => $row["notif_date"],
+        "reading_date" => $row["reading_date"]
+        );
+        }
+        return $notifications;
+    }
 }
 
 /**

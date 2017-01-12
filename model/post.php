@@ -476,9 +476,9 @@ function get_stats($pid) {
  * @param pid the post's id to be liked
  * @return true if the post has been liked, false else
  */
-function like($uid, $pid) {
+function like($id, $id_to_like) {
     $db = \Db::dbc();
-    $result = $db->query("INSERT INTO Liked (user_id,post_id) Values (".$uid.",".$pid.")");
+    $result = $db->query("INSERT INTO Notification(type,post_id,user_id,notif_date) Values ('liked','".$id_to_like."','".$id."','".date('Y-m-d H:i:s')."')");
     if(!$result){
         return false;
     }
@@ -495,7 +495,7 @@ function like($uid, $pid) {
  */
 function unlike($uid, $pid) {
     $db = \Db::dbc();
-    $result = $db->query("DELETE FROM Liked WHERE Liked.user_id=".$uid." and Liked.post_id=".$pid."");
+    $result = $db->query("DELETE FROM Notification WHERE type='liked' and user_id=".$uid." and post=".$pid."");
     if(!$result){
         return false;
     }
