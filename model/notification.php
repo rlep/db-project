@@ -113,7 +113,7 @@ function mentioned_notification_seen($uid, $pid) {
 function get_followed_notifications($uid) {
     $db = \Db::dbc();
     $notifications=array();
-    $result = $db->query("SELECT * from Notification WHERE type='followed'");
+    $result = $db->query("SELECT * from Following ");
     if(!$result){
         return null;
     }
@@ -121,9 +121,8 @@ function get_followed_notifications($uid) {
         foreach ($result as $row ) {
         $notifications[] =  (object) array(
         "type" => "followed",
-        "post" => \Model\Post\get($row["post_id"]),
-        "followed_by" => \Model\User\get($row["user_id"]),
-        "date" => $row["notif_date"],
+        "user" => \Model\User\get($row["follower"]),
+        "date" => $row["follow_date"],
         "reading_date" => $row["reading_date"]
         );
         }
@@ -139,7 +138,7 @@ function get_followed_notifications($uid) {
  */
 function followed_notification_seen($followed_id, $follower_id) {
     $db = \Db::dbc();
-    $result = $db->query("UPDATE Notification SET reading_date='".date('Y-m-d H:i:s')."' WHERE (type='followed' and post_id='".$pid."' and user_id='".$uid."')");
+    $result = $db->query("UPDATE Following SET reading_date='".date('Y-m-d H:i:s')."' WHERE (follower='".$follower_id."' and followed='".$followed_id."')");
     if(!$result){
         return false;
     }

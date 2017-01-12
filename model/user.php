@@ -318,7 +318,7 @@ function check_auth_id($id, $password) {
  */
 function follow($id, $id_to_follow) {
     $db = \Db::dbc();
-    $result = $db->query("INSERT INTO Following (follower,followed) Values (".$id.",".$id_to_follow.")");
+    $result = $db->query("INSERT INTO Following (follower,followed,follow_date) Values (".$id.",".$id_to_follow.",'".date('Y-m-d H:i:s')."')");
     if(!$result){
         return false;
     }
