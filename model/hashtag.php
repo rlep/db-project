@@ -117,7 +117,6 @@ function get_related_hashtags($hashtag_name, $length) {
                 $cpt ++;
             }
         }
-        var_dump($hashtags);
         return $hashtags;
     }
 }

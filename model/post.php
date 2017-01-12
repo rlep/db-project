@@ -69,7 +69,7 @@ function get_with_joins($id) {
     $responds_to = [];
 
     // get likes of a Post
-    $result = $db->query("SELECT * FROM Liked WHERE post_id=".$id."");
+    $result = $db->query("SELECT * FROM Notification WHERE type = 'liked' and post_id=".$id."");
     if(!$result){   
     }
     else{
@@ -236,7 +236,7 @@ function mention_user($pid, $uid) {
  */
 function get_mentioned($pid) {
     $db = \Db::dbc();
-    $result = $db->query("SELECT * Notification WHERE type='liked' and  post_id=".$pid."");
+    $result = $db->query("SELECT * from Notification WHERE (type='mentioned' and  post_id='".$pid."')");
     if(!$result){
         return [];
     }
@@ -271,6 +271,7 @@ function get_mentioned($pid) {
 function destroy($id) { //check fk liked, mentionned
     $db = \Db::dbc();
     $result = $db->query("DELETE FROM Notification where post_id=".$id."");
+    $result = $db->query("DELETE FROM Respond where post_init_id=".$id."");
     $result = $db->query("DELETE FROM Post where Post.id=".$id."");
     if(!$result){
         return false;

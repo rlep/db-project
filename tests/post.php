@@ -93,7 +93,6 @@ class PostTest extends TestCase
         $this->assertEquals(count($s), 1, "search should return a list of post objects");
         $this->assertEquals($s[0]->id, $pid1, "search should return a list of post objects");
         $s = Post\search("earchid");
-        var_dump($s);
         $this->assertEquals(count($s), 2);
         $ms = array_map(function($e) { return $e->id; }, $s);
         $this->assertContains($pid2, $ms, "search should perform a substring matching on text");
