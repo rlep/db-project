@@ -156,7 +156,7 @@ function list_all_notifications($uid) {
     usort(
         $ary,
         function($a, $b) {
-            return $b->date->format('U') - $a->date->format('U');
+            return $b->date - $a->date;
         }
     );
     return $ary;
